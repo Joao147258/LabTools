@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:RecepcionarDpsEnvio xmlns:ns0="http://www.betha.com.br/e-nota-dps" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#">
+  <ns0:DPS versao="1.00">
+    <ns0:infDPS id="DPS00000000000000000000000000000000000000000000002">
+      <ns0:tpAmb>0</ns0:tpAmb>
+      <ns0:dhEmi>2026-01-01T00:00:00-03:00</ns0:dhEmi>
+      <ns0:verAplic>DADO_TESTE</ns0:verAplic>
+      <ns0:serie>000</ns0:serie>
+      <ns0:nDPS>000000000000007</ns0:nDPS>
+      <ns0:dCompet>2026-01-01</ns0:dCompet>
+      <ns0:tpEmit>0</ns0:tpEmit>
+      <ns0:cLocEmi>0000000</ns0:cLocEmi>
+      <ns0:prest>
+        <ns0:CNPJ>12345678000195</ns0:CNPJ>
+        <ns0:regTrib>
+          <ns0:opSimpNac>0</ns0:opSimpNac>
+          <ns0:regEspTrib>0</ns0:regEspTrib>
+        </ns0:regTrib>
+      </ns0:prest>
+      <ns0:toma>
+        <ns0:CPF>12345678909</ns0:CPF>
+        <ns0:xNome>DADO_TESTE</ns0:xNome>
+        <ns0:end>
+          <ns0:endNac>
+            <ns0:cMun>0000000</ns0:cMun>
+            <ns0:CEP>00000000</ns0:CEP>
+          </ns0:endNac>
+          <ns0:xLgr>DADO_TESTE</ns0:xLgr>
+          <ns0:nro>00</ns0:nro>
+          <ns0:xBairro>DADO_TESTE</ns0:xBairro>
+        </ns0:end>
+        <ns0:email>teste@example.invalid</ns0:email>
+      </ns0:toma>
+      <ns0:serv>
+        <ns0:locPrest>
+          <ns0:cLocPrestacao>0000000</ns0:cLocPrestacao>
+        </ns0:locPrest>
+        <ns0:cServ>
+          <ns0:cTribNac>000000</ns0:cTribNac>
+          <ns0:xDescServ>DADO_TESTE</ns0:xDescServ>
+          <ns0:cNBS>000000000</ns0:cNBS>
+        </ns0:cServ>
+      </ns0:serv>
+      <ns0:valores>
+        <ns0:vServPrest>
+          <ns0:vServ>0.00</ns0:vServ>
+        </ns0:vServPrest>
+        <ns0:trib>
+          <ns0:tribMun>
+            <ns0:tribISSQN>0</ns0:tribISSQN>
+            <ns0:pAliq>0.00</ns0:pAliq>
+            <ns0:tpRetISSQN>0</ns0:tpRetISSQN>
+          </ns0:tribMun>
+          <ns0:tribFed>
+            <ns0:piscofins>
+              <ns0:CST>00</ns0:CST>
+              <ns0:vBCPisCofins>0.00</ns0:vBCPisCofins>
+              <ns0:pAliqPis>0.00</ns0:pAliqPis>
+              <ns0:pAliqCofins>0.00</ns0:pAliqCofins>
+              <ns0:vPis>0.00</ns0:vPis>
+              <ns0:vCofins>0.00</ns0:vCofins>
+              <ns0:tpRetPisCofins>0</ns0:tpRetPisCofins>
+            </ns0:piscofins>
+          </ns0:tribFed>
+          <ns0:totTrib>
+            <ns0:pTotTrib>
+              <ns0:pTotTribFed>0.00</ns0:pTotTribFed>
+              <ns0:pTotTribEst>0.00</ns0:pTotTribEst>
+              <ns0:pTotTribMun>0.00</ns0:pTotTribMun>
+            </ns0:pTotTrib>
+          </ns0:totTrib>
+        </ns0:trib>
+      </ns0:valores>
+      <ns0:IBSCBS>
+        <ns0:finNFSe>0</ns0:finNFSe>
+        <ns0:indFinal>0</ns0:indFinal>
+        <ns0:cIndOp>000000</ns0:cIndOp>
+        <ns0:indDest>0</ns0:indDest>
+        <ns0:valores>
+          <ns0:trib>
+            <ns0:gIBSCBS>
+              <ns0:CST>000</ns0:CST>
+              <ns0:cClassTrib>000000</ns0:cClassTrib>
+            </ns0:gIBSCBS>
+          </ns0:trib>
+        </ns0:valores>
+      </ns0:IBSCBS>
+    </ns0:infDPS>
+    <ns1:Signature Id="IDTESTE00000046">
+      <ns1:SignedInfo>
+        <ns1:CanonicalizationMethod Algorithm="urn:labtools:teste" />
+        <ns1:SignatureMethod Algorithm="urn:labtools:teste" />
+        <ns1:Reference URI="#IDTESTE">
+          <ns1:Transforms>
+            <ns1:Transform Algorithm="urn:labtools:teste" />
+            <ns1:Transform Algorithm="urn:labtools:teste" />
+          </ns1:Transforms>
+          <ns1:DigestMethod Algorithm="urn:labtools:teste" />
+          <ns1:DigestValue>DADO_TESTE</ns1:DigestValue>
+        </ns1:Reference>
+      </ns1:SignedInfo>
+      <ns1:SignatureValue>DADO_TESTE</ns1:SignatureValue>
+      <ns1:KeyInfo>
+        <ns1:X509Data>
+          <ns1:X509Certificate>DADO_TESTE</ns1:X509Certificate>
+        </ns1:X509Data>
+      </ns1:KeyInfo>
+    </ns1:Signature>
+  </ns0:DPS>
+</ns0:RecepcionarDpsEnvio>

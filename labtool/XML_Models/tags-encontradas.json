@@ -1,0 +1,66 @@
+{
+  "tags": [
+    {
+      "tag": "cnpj",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cpf",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "dest",
+      "tipo": "BLOCO",
+      "ocorrencias": 1,
+      "comoBloco": 1,
+      "comoIndividual": 0
+    },
+    {
+      "tag": "emit",
+      "tipo": "BLOCO",
+      "ocorrencias": 1,
+      "comoBloco": 1,
+      "comoIndividual": 0
+    },
+    {
+      "tag": "infnfe",
+      "tipo": "BLOCO",
+      "ocorrencias": 1,
+      "comoBloco": 1,
+      "comoIndividual": 0
+    },
+    {
+      "tag": "nfe",
+      "tipo": "BLOCO",
+      "ocorrencias": 1,
+      "comoBloco": 1,
+      "comoIndividual": 0
+    },
+    {
+      "tag": "nfeproc",
+      "tipo": "BLOCO",
+      "ocorrencias": 1,
+      "comoBloco": 1,
+      "comoIndividual": 0
+    },
+    {
+      "tag": "xnome",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 2,
+      "comoBloco": 0,
+      "comoIndividual": 2
+    }
+  ],
+  "atributos": [
+    {
+      "atributo": "id",
+      "ocorrencias": 1
+    }
+  ]
+}

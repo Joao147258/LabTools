@@ -1,0 +1,8 @@
+cnpj [INDIVIDUAL]
+cpf [INDIVIDUAL]
+dest [BLOCO]
+emit [BLOCO]
+infnfe [BLOCO]
+nfe [BLOCO]
+nfeproc [BLOCO]
+xnome [INDIVIDUAL]

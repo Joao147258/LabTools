@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LabToolsFixture xmlns="urn:labtools:fixture">
+  <infNFSe Id="NFSTESTE0001">
+    <xLocEmi>CIDADE TESTE</xLocEmi>
+    <Senha>TESTE123</Senha>
+    <Homologa>0</Homologa>
+  </infNFSe>
+  <infDPS Id="DPSTESTE0001"><nDPS>000000000000001</nDPS></infDPS>
+</LabToolsFixture>
