@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:DPS xmlns="http://www.w3.org/2000/09/xmldsig#" xmlns:ns0="http://www.sped.fazenda.gov.br/nfse" versao="1.00">
+  <ns0:infDPS Id="DPS00000000000000000000000000000000000000000000002">
+    <ns0:tpAmb>0</ns0:tpAmb>
+    <ns0:dhEmi>2026-01-01T00:00:00-03:00</ns0:dhEmi>
+    <ns0:verAplic>DADO_TESTE</ns0:verAplic>
+    <ns0:serie>0</ns0:serie>
+    <ns0:nDPS>000000000000007</ns0:nDPS>
+    <ns0:dCompet>2026-01-01</ns0:dCompet>
+    <ns0:tpEmit>0</ns0:tpEmit>
+    <ns0:cLocEmi>0000000</ns0:cLocEmi>
+    <ns0:prest>
+      <ns0:CNPJ>12345678000195</ns0:CNPJ>
+      <ns0:regTrib>
+        <ns0:opSimpNac>0</ns0:opSimpNac>
+        <ns0:regApTribSN>0</ns0:regApTribSN>
+        <ns0:regEspTrib>0</ns0:regEspTrib>
+      </ns0:regTrib>
+    </ns0:prest>
+    <ns0:toma>
+      <ns0:CNPJ>12345678000195</ns0:CNPJ>
+      <ns0:xNome>DADO_TESTE</ns0:xNome>
+      <ns0:end>
+        <ns0:endNac>
+          <ns0:cMun>0000000</ns0:cMun>
+          <ns0:CEP>01001000</ns0:CEP>
+        </ns0:endNac>
+        <ns0:xLgr>DADO_TESTE</ns0:xLgr>
+        <ns0:nro>000</ns0:nro>
+        <ns0:xCpl>DADO_TESTE</ns0:xCpl>
+        <ns0:xBairro>DADO_TESTE</ns0:xBairro>
+      </ns0:end>
+      <ns0:email>teste@example.invalid</ns0:email>
+    </ns0:toma>
+    <ns0:serv>
+      <ns0:locPrest>
+        <ns0:cLocPrestacao>0000000</ns0:cLocPrestacao>
+      </ns0:locPrest>
+      <ns0:cServ>
+        <ns0:cTribNac>000000</ns0:cTribNac>
+        <ns0:xDescServ>DADO_TESTE</ns0:xDescServ>
+        <ns0:cNBS>000000000</ns0:cNBS>
+      </ns0:cServ>
+    </ns0:serv>
+    <ns0:valores>
+      <ns0:vServPrest>
+        <ns0:vServ>0.00</ns0:vServ>
+      </ns0:vServPrest>
+      <ns0:trib>
+        <ns0:tribMun>
+          <ns0:tribISSQN>0</ns0:tribISSQN>
+          <ns0:tpRetISSQN>0</ns0:tpRetISSQN>
+        </ns0:tribMun>
+        <ns0:tribFed>
+          <ns0:piscofins>
+            <ns0:CST>00</ns0:CST>
+            <ns0:vBCPisCofins>0.00</ns0:vBCPisCofins>
+            <ns0:pAliqPis>0.00</ns0:pAliqPis>
+            <ns0:pAliqCofins>0.00</ns0:pAliqCofins>
+            <ns0:vPis>0.00</ns0:vPis>
+            <ns0:vCofins>0.00</ns0:vCofins>
+            <ns0:tpRetPisCofins>0</ns0:tpRetPisCofins>
+          </ns0:piscofins>
+        </ns0:tribFed>
+        <ns0:totTrib>
+          <ns0:pTotTrib>
+            <ns0:pTotTribFed>0.00</ns0:pTotTribFed>
+            <ns0:pTotTribEst>0.00</ns0:pTotTribEst>
+            <ns0:pTotTribMun>0.00</ns0:pTotTribMun>
+          </ns0:pTotTrib>
+        </ns0:totTrib>
+      </ns0:trib>
+    </ns0:valores>
+    <ns0:IBSCBS>
+      <ns0:finNFSe>0</ns0:finNFSe>
+      <ns0:indFinal>0</ns0:indFinal>
+      <ns0:cIndOp>000000</ns0:cIndOp>
+      <ns0:indDest>0</ns0:indDest>
+      <ns0:valores>
+        <ns0:trib>
+          <ns0:gIBSCBS>
+            <ns0:CST>000</ns0:CST>
+            <ns0:cClassTrib>000000</ns0:cClassTrib>
+          </ns0:gIBSCBS>
+        </ns0:trib>
+      </ns0:valores>
+    </ns0:IBSCBS>
+  </ns0:infDPS>
+  <Signature Id="IDTESTE00000047">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="urn:labtool:teste" />
+      <SignatureMethod Algorithm="urn:labtool:teste" />
+      <Reference URI="#IDTESTE">
+        <Transforms>
+          <Transform Algorithm="urn:labtool:teste" />
+          <Transform Algorithm="urn:labtool:teste" />
+        </Transforms>
+        <DigestMethod Algorithm="urn:labtool:teste" />
+        <DigestValue>DADO_TESTE</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>DADO_TESTE</SignatureValue>
+    <KeyInfo>
+      <X509Data>
+        <X509Certificate>DADO_TESTE</X509Certificate>
+      </X509Data>
+    </KeyInfo>
+  </Signature>
+</ns0:DPS>

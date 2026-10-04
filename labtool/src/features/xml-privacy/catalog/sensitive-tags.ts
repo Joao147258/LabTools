@@ -100,9 +100,17 @@ export const SENSITIVE_TAGS = {
   // ==========================================================================
   xnome: { category: "NOME", suggestedAction: "REPLACE" },
   nome: { category: "NOME", suggestedAction: "REPLACE" },
+  nomecompleto: { category: "NOME", suggestedAction: "REPLACE" },
+  nomepessoa: { category: "NOME", suggestedAction: "REPLACE" },
+  nomedestinatario: { category: "NOME", suggestedAction: "REPLACE" },
+  nometomador: { category: "NOME", suggestedAction: "REPLACE" },
+  nomeprestador: { category: "NOME", suggestedAction: "REPLACE" },
+  nomeintermediario: { category: "NOME", suggestedAction: "REPLACE" },
   nomeresponsavel: { category: "NOME", suggestedAction: "REPLACE" },
   nomerequerente: { category: "NOME", suggestedAction: "REPLACE" },
+  nomerepresentante: { category: "NOME", suggestedAction: "REPLACE" },
   nomecontato: { category: "NOME", suggestedAction: "REPLACE" },
+  nomecliente: { category: "NOME", suggestedAction: "REPLACE" },
   nomeproprietario: { category: "NOME", suggestedAction: "REPLACE" },
 
   // ==========================================================================
@@ -110,15 +118,29 @@ export const SENSITIVE_TAGS = {
   // ==========================================================================
   xfant: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
   razaosocial: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  razao: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  xrazao: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  razsoc: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  nomeempresarial: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
   nomefantasia: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
   xrazaosocial: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  razaosocialdestinatario: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  razaosocialdestinatariocbsibs: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  razaosocialprestador: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  razaosocialprestadorcbsibs: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  razaosocialtomador: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  razaosocialintermediario: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  xnomerec: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
+  xnomedest: { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" },
 
   // ==========================================================================
   // CONTATO
   // ==========================================================================
   email: { category: "CONTATO", suggestedAction: "REPLACE" },
   emailcontato: { category: "CONTATO", suggestedAction: "REPLACE" },
+  emaildestinatario: { category: "CONTATO", suggestedAction: "REPLACE" },
   fone: { category: "CONTATO", suggestedAction: "REPLACE" },
+  fonedestinatario: { category: "CONTATO", suggestedAction: "REPLACE" },
   telefone: { category: "CONTATO", suggestedAction: "REPLACE" },
   celular: { category: "CONTATO", suggestedAction: "REPLACE" },
   tel: { category: "CONTATO", suggestedAction: "REPLACE" },
@@ -131,14 +153,22 @@ export const SENSITIVE_TAGS = {
   inscricaomunicipal: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   imtomador: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   imprestador: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
+  imdestinatario: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
+  imdestinatariocbsibs: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
+  imprestadorcbsibs: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   inscricaomunicipaltomador: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   inscricaomunicipalprestador: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   ie: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   iest: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   isuf: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
+  iedestinatario: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
+  iedestinatariocbsibs: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
+  ieprestador: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
+  ieprestadorcbsibs: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   inscricaoestadual: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   inss: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
   cnae: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
+  cnaefiscal: { category: "INSCRICAO", suggestedAction: "PRESERVE" },
 
   // ==========================================================================
   // ENDEREÇO & LOCALIZAÇÃO (Ação: PRESERVE — Não sanitizar/selecionar por padrão)
@@ -222,7 +252,7 @@ export function getTagDefinition(tagName: string): SensitiveTagDefinition | unde
 }
 
 /**
- * Classifica uma tag com base no catálogo declarativo e fallbacks controlados.
+ * Classifica uma tag com base no catálogo declarativo e fallbacks heurísticos controlados.
  */
 export function classifyTag(tagName: string): SensitiveTagDefinition {
   const directMatch = getTagDefinition(tagName);
@@ -232,19 +262,83 @@ export function classifyTag(tagName: string): SensitiveTagDefinition {
 
   const normalized = normalizeTagName(tagName);
 
-  // Heurísticas simples e determinísticas de sufixo/prefixo
-  if (normalized.endsWith("cpf") || normalized.startsWith("cpf")) {
+  // 1. RAZÃO SOCIAL & NOME EMPRESARIAL (Heurística de alta confiança)
+  if (
+    normalized.includes("razaosocial") ||
+    normalized.includes("nomeempresarial") ||
+    normalized.includes("razsoc") ||
+    normalized.startsWith("xrazao") ||
+    normalized.startsWith("razaosocial") ||
+    normalized === "razao" ||
+    normalized === "xrazao" ||
+    normalized === "xnomedest" ||
+    normalized === "xnomerec"
+  ) {
+    return { category: "RAZAO_SOCIAL", suggestedAction: "REPLACE" };
+  }
+
+  // 2. NOMES PESSOAIS / CLIENTES / RESPONSÁVEIS
+  if (
+    normalized.startsWith("nome") ||
+    normalized.startsWith("xnome") ||
+    normalized.endsWith("nome")
+  ) {
+    return { category: "NOME", suggestedAction: "REPLACE" };
+  }
+
+  // 3. CPF (Tags com CPF ou CNPJ_CPF)
+  if (
+    normalized.endsWith("cpf") ||
+    normalized.startsWith("cpf") ||
+    normalized.includes("cpf")
+  ) {
     return { category: "CPF", suggestedAction: "REPLACE" };
   }
-  if (normalized.endsWith("cnpj") || normalized.startsWith("cnpj")) {
+
+  // 4. CNPJ
+  if (
+    normalized.endsWith("cnpj") ||
+    normalized.startsWith("cnpj") ||
+    normalized.includes("cnpj")
+  ) {
     return { category: "CNPJ", suggestedAction: "REPLACE" };
   }
-  if (normalized.includes("email") || normalized.includes("fone") || normalized.includes("celular")) {
+
+  // 5. CONTATO (E-mail, Telefones, Celular)
+  if (
+    normalized.includes("email") ||
+    normalized.includes("fone") ||
+    normalized.includes("celular") ||
+    normalized.includes("telefone") ||
+    normalized.startsWith("tel")
+  ) {
     return { category: "CONTATO", suggestedAction: "REPLACE" };
   }
-  if (normalized.includes("senha") || normalized.includes("token") || normalized.includes("secret")) {
+
+  // 6. CREDENCIAIS & SEGREDOS
+  if (
+    normalized.includes("senha") ||
+    normalized.includes("token") ||
+    normalized.includes("secret") ||
+    normalized.includes("password")
+  ) {
     return { category: "CREDENCIAIS", suggestedAction: "REPLACE" };
   }
+
+  // 7. IDENTIFICADORES DE DECLARAÇÃO E RECIBO
+  if (
+    normalized.startsWith("iddps") ||
+    normalized.startsWith("idnfse") ||
+    normalized.startsWith("ndps") ||
+    normalized.startsWith("idrecibo") ||
+    normalized.startsWith("iddeclaracao") ||
+    normalized.startsWith("iddocumento") ||
+    normalized.startsWith("idrastreio")
+  ) {
+    return { category: "IDENTIFICADOR_DPS", suggestedAction: "REPLACE" };
+  }
+
+  // 8. ENDEREÇO & LOCALIZAÇÃO (Ação: PRESERVE)
   if (
     normalized.includes("endereco") ||
     normalized.includes("ender") ||
@@ -255,18 +349,38 @@ export function classifyTag(tagName: string): SensitiveTagDefinition {
     normalized.startsWith("cmun") ||
     normalized.startsWith("xmun") ||
     normalized.startsWith("cloc") ||
-    normalized.startsWith("xloc")
+    normalized.startsWith("xloc") ||
+    normalized === "uf" ||
+    normalized === "pais" ||
+    normalized === "cpais" ||
+    normalized === "xpais" ||
+    normalized === "nro" ||
+    normalized === "numero" ||
+    normalized === "complemento" ||
+    normalized === "xcpl" ||
+    normalized === "xlgr" ||
+    normalized === "xbairro"
   ) {
     return { category: "ENDERECO", suggestedAction: "PRESERVE" };
   }
+
+  // 9. INSCRIÇÃO FISCAL (Ação: PRESERVE — Lista auditada e defensiva)
   if (
-    normalized.includes("inscricao") ||
     normalized === "im" ||
     normalized === "ie" ||
-    normalized.startsWith("im") ||
-    normalized.startsWith("ie") ||
-    normalized.endsWith("im") ||
-    normalized.endsWith("ie")
+    normalized === "iest" ||
+    normalized === "isuf" ||
+    normalized === "inss" ||
+    normalized === "cnae" ||
+    normalized.includes("inscricao") ||
+    normalized.startsWith("imtomador") ||
+    normalized.startsWith("imprest") ||
+    normalized.startsWith("imdest") ||
+    normalized.startsWith("imemit") ||
+    normalized.startsWith("ietomador") ||
+    normalized.startsWith("ieprest") ||
+    normalized.startsWith("iedest") ||
+    normalized.startsWith("ieemit")
   ) {
     return { category: "INSCRICAO", suggestedAction: "PRESERVE" };
   }

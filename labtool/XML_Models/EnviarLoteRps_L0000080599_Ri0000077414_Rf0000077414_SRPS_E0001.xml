@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<p:EnviarLoteRpsEnvio xmlns="http://www.w3.org/2000/09/xmldsig#" xmlns:p="http://www.giss.com.br/enviar-lote-rps-envio-v2_04.xsd" xmlns:p1="http://www.giss.com.br/tipos-v2_04.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:labtool:teste">
+  <p:LoteRps Id="IDTESTE00000002" versao="1.00">
+    <p1:NumeroLote>00000</p1:NumeroLote>
+    <p1:Prestador>
+      <p1:CpfCnpj>
+        <p1:Cnpj>12345678000195</p1:Cnpj>
+      </p1:CpfCnpj>
+      <p1:InscricaoMunicipal>000000000</p1:InscricaoMunicipal>
+    </p1:Prestador>
+    <p1:QuantidadeRps>0</p1:QuantidadeRps>
+    <p1:ListaRps>
+      <p1:Rps>
+        <p1:InfDeclaracaoPrestacaoServico Id="IDTESTE00000008">
+          <p1:Rps Id="IDTESTE00000009">
+            <p1:IdentificacaoRps>
+              <p1:Numero>00000</p1:Numero>
+              <p1:Serie>DADO_TESTE</p1:Serie>
+              <p1:Tipo>0</p1:Tipo>
+            </p1:IdentificacaoRps>
+            <p1:DataEmissao>2026-01-01</p1:DataEmissao>
+            <p1:Status>0</p1:Status>
+          </p1:Rps>
+          <p1:Competencia>2026-01-01</p1:Competencia>
+          <p1:Servico>
+            <p1:Valores>
+              <p1:ValorServicos>0.00</p1:ValorServicos>
+              <p1:ValorDeducoes>0.00</p1:ValorDeducoes>
+              <p1:ValorPis>0.00</p1:ValorPis>
+              <p1:ValorCofins>0.00</p1:ValorCofins>
+              <p1:ValorInss>0.00</p1:ValorInss>
+              <p1:ValorIr>0.00</p1:ValorIr>
+              <p1:ValorCsll>0.00</p1:ValorCsll>
+              <p1:OutrasRetencoes>0.00</p1:OutrasRetencoes>
+              <p1:ValTotTributos>0.00</p1:ValTotTributos>
+              <p1:ValorIss>0.00</p1:ValorIss>
+              <p1:Aliquota>0.00</p1:Aliquota>
+              <p1:DescontoIncondicionado>0.00</p1:DescontoIncondicionado>
+              <p1:DescontoCondicionado>0.00</p1:DescontoCondicionado>
+              <p1:trib>
+                <p1:tribFed>
+                  <p1:piscofins>
+                    <p1:CST>00</p1:CST>
+                    <p1:vBCPisCofins>0.00</p1:vBCPisCofins>
+                    <p1:pAliqPis>0.00</p1:pAliqPis>
+                    <p1:pAliqCofins>0.00</p1:pAliqCofins>
+                    <p1:vPis>0.00</p1:vPis>
+                    <p1:vCofins>0.00</p1:vCofins>
+                    <p1:tpRetPisCofins>0</p1:tpRetPisCofins>
+                  </p1:piscofins>
+                </p1:tribFed>
+                <p1:totTrib>
+                  <p1:pTotTrib>
+                    <p1:pTotTribFed>0.00</p1:pTotTribFed>
+                    <p1:pTotTribEst>0.00</p1:pTotTribEst>
+                    <p1:pTotTribMun>0.00</p1:pTotTribMun>
+                  </p1:pTotTrib>
+                </p1:totTrib>
+              </p1:trib>
+              <p1:IBSCBS>
+                <p1:finNFSe>0</p1:finNFSe>
+                <p1:indFinal>0</p1:indFinal>
+                <p1:cIndOp>000000</p1:cIndOp>
+                <p1:indDest>0</p1:indDest>
+                <p1:valores>
+                  <p1:trib>
+                    <p1:gIBSCBS>
+                      <p1:CST>000</p1:CST>
+                      <p1:cClassTrib>000000</p1:cClassTrib>
+                    </p1:gIBSCBS>
+                  </p1:trib>
+                  <p1:cLocalidadeIncid>0000000</p1:cLocalidadeIncid>
+                  <p1:pRedutor>0</p1:pRedutor>
+                </p1:valores>
+              </p1:IBSCBS>
+            </p1:Valores>
+            <p1:IssRetido>0</p1:IssRetido>
+            <p1:ItemListaServico>0.00</p1:ItemListaServico>
+            <p1:CodigoTributacaoMunicipio>0000000</p1:CodigoTributacaoMunicipio>
+            <p1:CodigoNbs>000000000</p1:CodigoNbs>
+            <p1:Discriminacao>DADO_TESTE</p1:Discriminacao>
+            <p1:CodigoMunicipio>0000000</p1:CodigoMunicipio>
+            <p1:CodigoPais>0000</p1:CodigoPais>
+            <p1:ExigibilidadeISS>0</p1:ExigibilidadeISS>
+            <p1:MunicipioIncidencia>0000000</p1:MunicipioIncidencia>
+          </p1:Servico>
+          <p1:Prestador>
+            <p1:CpfCnpj>
+              <p1:Cnpj>12345678000195</p1:Cnpj>
+            </p1:CpfCnpj>
+            <p1:InscricaoMunicipal>000000000</p1:InscricaoMunicipal>
+          </p1:Prestador>
+          <p1:TomadorServico>
+            <p1:IdentificacaoTomador>
+              <p1:CpfCnpj>
+                <p1:Cnpj>12345678000195</p1:Cnpj>
+              </p1:CpfCnpj>
+            </p1:IdentificacaoTomador>
+            <p1:RazaoSocial>DADO_TESTE</p1:RazaoSocial>
+            <p1:Endereco>
+              <p1:Endereco>DADO_TESTE</p1:Endereco>
+              <p1:Numero>0000</p1:Numero>
+              <p1:Complemento>DADO_TESTE</p1:Complemento>
+              <p1:Bairro>DADO_TESTE</p1:Bairro>
+              <p1:CodigoMunicipio>0000000</p1:CodigoMunicipio>
+              <p1:Uf>DADO_TESTE</p1:Uf>
+              <p1:Cep>01001000</p1:Cep>
+            </p1:Endereco>
+            <p1:Contato>
+              <p1:Telefone>11999999999</p1:Telefone>
+              <p1:Email>teste@example.invalid</p1:Email>
+            </p1:Contato>
+          </p1:TomadorServico>
+          <p1:OptanteSimplesNacional>0</p1:OptanteSimplesNacional>
+          <p1:IncentivoFiscal>0</p1:IncentivoFiscal>
+        </p1:InfDeclaracaoPrestacaoServico>
+        <Signature Id="IDTESTE00000071">
+          <SignedInfo>
+            <CanonicalizationMethod Algorithm="urn:labtool:teste" />
+            <SignatureMethod Algorithm="urn:labtool:teste" />
+            <Reference URI="#IDTESTE">
+              <Transforms>
+                <Transform Algorithm="urn:labtool:teste" />
+                <Transform Algorithm="urn:labtool:teste" />
+              </Transforms>
+              <DigestMethod Algorithm="urn:labtool:teste" />
+              <DigestValue>DADO_TESTE</DigestValue>
+            </Reference>
+          </SignedInfo>
+          <SignatureValue>DADO_TESTE</SignatureValue>
+          <KeyInfo>
+            <X509Data>
+              <X509Certificate>DADO_TESTE</X509Certificate>
+            </X509Data>
+          </KeyInfo>
+        </Signature>
+      </p1:Rps>
+    </p1:ListaRps>
+  </p:LoteRps>
+  <Signature Id="IDTESTE00000081">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="urn:labtool:teste" />
+      <SignatureMethod Algorithm="urn:labtool:teste" />
+      <Reference URI="#IDTESTE">
+        <Transforms>
+          <Transform Algorithm="urn:labtool:teste" />
+          <Transform Algorithm="urn:labtool:teste" />
+        </Transforms>
+        <DigestMethod Algorithm="urn:labtool:teste" />
+        <DigestValue>DADO_TESTE</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>DADO_TESTE</SignatureValue>
+    <KeyInfo>
+      <X509Data>
+        <X509Certificate>DADO_TESTE</X509Certificate>
+      </X509Data>
+    </KeyInfo>
+  </Signature>
+</p:EnviarLoteRpsEnvio>

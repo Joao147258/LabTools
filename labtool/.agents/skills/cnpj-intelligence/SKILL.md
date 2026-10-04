@@ -2,7 +2,7 @@
 
 ## Estado
 
-INITIAL
+CONSOLIDATED
 
 ---
 
@@ -10,126 +10,129 @@ INITIAL
 
 Orientar o desenvolvimento, manutenção e evolução da ferramenta **CNPJ Intelligence** no LabTool.
 
-A skill abrange a modelagem do domínio de CNPJ, normalização de caracteres, validação algorítmica de dígitos verificadores, orquestração de casos de uso de consulta cadastral, definição de contratos de gateway, implementação de adaptadores de infraestrutura para fontes externas (ex.: BrasilAPI), mapeamento de dados e apresentação.
+A skill abrange a modelagem do domínio de CNPJ, normalização de caracteres, validação algorítmica de dígitos verificadores, orquestração de casos de uso de consulta cadastral, definição de contratos de gateway, implementação de adaptadores de infraestrutura para fontes externas (BrasilAPI v1), mapeamento defensivo de dados, route handlers Next.js e apresentação em conformidade com o Design System Catppuccin Mocha.
 
 ---
 
 ## Escopo
 
-Esta skill pertence exclusivamente à feature `cnpj-intelligence` do LabTool (`src/features/cnpj-intelligence/`).
-
-O conteúdo evolui conforme cada etapa da ferramenta for modelada, implementada e comprovada por testes.
-
-Não antecipar código, gateways concretos ou contratos antes da respectiva fase de construção.
+Esta skill pertence exclusivamente à feature `cnpj-intelligence` do LabTool (`./src/features/cnpj-intelligence/`).
 
 ---
 
 ## Fluxo Conceitual da Feature
 
-O fluxo de processamento e consulta de CNPJ segue a sequência:
+O fluxo de processamento e consulta de CNPJ segue a sequência estrita da Clean Architecture:
 
 ```text
 entrada
  ↓
-normalização
+normalização (domain)
  ↓
-validação
+validação (domain)
  ↓
-caso de uso
+caso de uso (application)
  ↓
-contrato
+contrato (CnpjGateway interface)
  ↓
-infraestrutura
+infraestrutura (BrasilApiClient)
  ↓
-fonte externa
+fonte externa (BrasilAPI v1)
  ↓
-mapeamento
+mapeamento (CompanyApiMapper)
  ↓
-modelo
+modelo de domínio (Company)
  ↓
-apresentação
+apresentação (CnpjIntelligenceView)
 ```
 
-1. **Entrada**: String fornecida pelo usuário ou interface (formatada ou não).
-2. **Normalização**: Limpeza e padronização (remoção de pontuação, espaços, caracteres não numéricos).
-3. **Validação**: Verificação de tamanho (14 dígitos), padrão e cálculo dos dígitos verificadores (DV).
-4. **Caso de Uso**: Orquestrador da aplicação que executa a validação e aciona o contrato de busca cadastral.
-5. **Contrato**: Interface (porta) que desacopla a aplicação do provedor externo.
-6. **Infraestrutura**: Cliente HTTP responsável pela comunicação de rede com a fonte externa.
-7. **Fonte Externa**: API pública ou serviço provedor dos dados cadastrais (ex.: BrasilAPI).
-8. **Mapeamento**: Tradução da resposta do provedor externo para o modelo de domínio do LabTool.
-9. **Modelo**: Entidade de domínio enriquecida e segura com os dados da empresa.
-10. **Apresentação**: Exibição formatada e organizada dos dados na interface com o usuário.
+1. **Entrada**: String fornecida pelo usuário ou parâmetro de busca (`?cnpj=...`).
+2. **Normalização**: Limpeza de pontuação e caracteres não numéricos (`normalizeCnpj`).
+3. **Validação**: Verificação de tamanho (14 dígitos), sequências repetidas e cálculo dos dígitos verificadores (DV1 e DV2).
+4. **Caso de Uso**: `consultCnpjUseCase` / `getCompanyByCnpj` orquestra a validação defensiva e aciona o contrato.
+5. **Contrato**: Interface `CnpjGateway` desacopla a aplicação do provedor externo.
+6. **Infraestrutura**: `BrasilApiClient` executa a requisição HTTP com timeout de 10s e tradução de status.
+7. **Fonte Externa**: API pública `https://brasilapi.com.br/api/cnpj/v1/{cnpj}`.
+8. **Mapeamento**: `CompanyApiMapper.toDomain` converte o payload bruto para o modelo interno.
+9. **Modelo**: Entidade `Company` com endereço consolidado, CNAEs e quadro societário sanitizado.
+10. **Apresentação**: `CnpjIntelligenceView` gerencia estados (`idle`, `loading`, `success`, `not-found`, `error`) e renderiza os blocos modulares.
 
 ---
 
 ## Princípios Fundamentais
 
-- **Separação entre Normalização e Validação**: Normalizar (transformar a entrada em formato canônico) e validar (verificar se é um CNPJ válido e calcular DVs) são responsabilidades distintas e independentes.
-- **Isolamento do Domínio**: O domínio do CNPJ não deve conhecer endpoints, schemas de transporte, headers HTTP ou peculiaridades da API externa.
-- **Uso de Infraestrutura e Contratos**: A integração com serviços remotos pertence à camada de `infrastructure`. A `application` consome apenas o contrato (interface) abstrato, garantindo a inversão de dependência.
-- **Fidelidade aos Dados da Fonte**: Dados ausentes na resposta da API externa nunca devem ser inventados silenciosamente; campos nulos ou inexistentes devem ser representados com precisão.
-- **Tratamento e Isolamento de Erros**: Erros de transporte/rede, timeouts e falhas de provedores devem ser traduzidos em erros de aplicação claros, sem vazar exceções cruas ou detalhes sensíveis para a UI.
-- **Independência de Apresentação**: A interface visual apenas solicita a consulta e renderiza o resultado; as regras cadastrais e de validação residem estritamente no domínio e na aplicação.
+- **Separação entre Normalização e Validação**: Normalizar (transformar a entrada em 14 dígitos canônicos) e validar (calcular DVs e rejeitar repetidos) são operações distintas.
+- **Isolamento do Domínio**: O domínio não conhece `fetch`, URLs externas, Next.js ou React.
+- **Inversão de Dependência**: A aplicação depende da interface `CnpjGateway`. A infraestrutura implementa a interface.
+- **Fidelidade aos Dados da Fonte**: Dados ausentes não são inventados nem renderizados como `undefined` ou `null`.
+- **Tratamento Seguro de Erros**: Erros HTTP (404, 400, 429, 500, timeout) são mapeados para códigos de erro da aplicação (`CnpjConsultError`), sem expor stack traces ao usuário.
+- **Design System Catppuccin Mocha**: Interface sóbria, blocos semânticos, tipografia técnica com JetBrains Mono e paleta de cores canônica.
 
 ---
 
-## Ordem de Construção (Guia de Construção)
+## Contratos Consolidados
 
-A construção da feature deve seguir progressivamente os estágios:
+```ts
+export type CnpjConsultErrorCode =
+  | "INVALID_CNPJ"
+  | "NOT_FOUND"
+  | "RATE_LIMITED"
+  | "SERVICE_UNAVAILABLE"
+  | "TIMEOUT"
+  | "NETWORK_ERROR"
+  | "INTERNAL_ERROR";
 
-```text
-domain
- ↓
-normalizer
- ↓
-validator
- ↓
-use case
- ↓
-contract
- ↓
-infrastructure (client + mapper)
- ↓
-route handler
- ↓
-tests
- ↓
-presentation
+export class CnpjConsultError extends Error {
+  public readonly code: CnpjConsultErrorCode;
+  public readonly originalError?: unknown;
+}
+
+export interface CnpjGateway {
+  findByCnpj(cnpj: string, signal?: AbortSignal): Promise<Company>;
+}
 ```
 
 ---
 
-## Regra de Portabilidade
+## Modelos Confirmados
 
-É expressamente proibido registrar ou utilizar caminhos absolutos atrelados à máquina local (`/home/...`, `C:\...`). Utilizar apenas caminhos relativos ao projeto (`./src/features/cnpj-intelligence/`, `./tests/features/cnpj-intelligence/`).
-
----
-
-## Contratos [A CONSOLIDAR DURANTE A CONSTRUÇÃO]
-
-*(Os contratos de entrada/saída, interfaces de Gateway e tipos de erros serão registrados nesta seção conforme forem implementados).*
+- `Company`: Entidade central com CNPJ normalizado e formatado, Razão Social, Nome Fantasia, Situação Cadastral, Data de Abertura, Natureza Jurídica, Porte, Capital Social formatado, Endereço, Atividade Principal, Atividades Secundárias e Quadro Societário.
+- `CompanyAddress`: Logradouro, número, complemento, bairro, CEP formatado, município, UF e endereço completo consolidado.
+- `CompanyActivity`: Código CNAE formatado (`XXXX-X/XX`) e descrição textual.
+- `CompanyPartner`: Nome do integrante, qualificação, data de entrada na sociedade, faixa etária e representante legal (nome e qualificação).
 
 ---
 
-## Modelos Confirmados [A CONSOLIDAR DURANTE A CONSTRUÇÃO]
+## Invariantes Confirmados
 
-*(Modelos como `Cnpj`, `CompanyProfile`, `CnpjAddress` serão registrados após modelagem e validação).*
-
----
-
-## Invariantes Confirmados [A CONSOLIDAR DURANTE A CONSTRUÇÃO]
-
-*(Invariantes como integridade do algoritmo de dígitos verificadores e regras de normalização serão registrados após consolidação).*
+- **Validação de DV**: Algoritmo oficial de módulo 11 da Receita Federal para os pesos do 1º dígito `[5,4,3,2,9,8,7,6,5,4,3,2]` e 2º dígito `[6,5,4,3,2,9,8,7,6,5,4,3,2]`.
+- **Rejeição de Sequências**: Sequências de 14 dígitos idênticos (`00000000000000` a `99999999999999`) são terminantemente inválidas.
+- **Segurança e Privacidade**: Nenhuma persistência local (sem salvar histórico ou dados cadastrais em localStorage).
 
 ---
 
-## Testes Consolidados [A CONSOLIDAR DURANTE A CONSTRUÇÃO]
+## Testes Consolidados
 
-*(Registro de suítes de teste de dígitos verificadores, normalizadores, mappers de API e casos de erro/timeout).*
+Suíte automatizada em `./tests/features/cnpj-intelligence/`:
+- `cnpj.test.ts`: 19 testes cobrindo validação algorítmica de CNPJ, normalização, formatação e helpers utilitários.
+- `consult-cnpj.usecase.test.ts`: 5 testes cobrindo orquestração, bloqueio prévio de inválidos e tratamento de erros.
+- `company-api.mapper.test.ts`: 3 testes cobrindo conversão de payloads completos, parciais e listas vazias da BrasilAPI.
+- `company-api.client.test.ts`: 7 testes cobrindo respostas 200, 404, 400, 429, 500, timeouts e erros de rede com mocks.
+- `presentation.test.tsx`: Testes de componentes React cobrindo estados `idle`, `loading`, `success`, `not-found`, `error`, digitação com máscara e blocos modulares.
 
 ---
 
-## Decisões Consolidadas [A CONSOLIDAR DURANTE A CONSTRUÇÃO]
+## Decisões Técnicas Consolidadas
 
-*(Registro de decisões técnicas consolidadas no formato: Problema -> Decisão -> Motivo -> Consequência).*
+1. **Fonte de Dados Pública (BrasilAPI v1)**:
+   - *Decisão*: Utilizar a BrasilAPI v1 (`https://brasilapi.com.br/api/cnpj/v1/{cnpj}`) como provedor de dados cadastrais públicos da Receita Federal.
+   - *Motivo*: Serviço gratuito, aberto, sem necessidade de credenciais ou chaves privadas.
+   - *Consequência*: Isolado via `CompanyApiClient` e mapeado via `CompanyApiMapper`, permitindo substituição transparente de provedor caso necessário.
+
+2. **Route Handler Next.js (`/api/cnpj/[cnpj]`)**:
+   - *Decisão*: Expor um endpoint server-side no App Router e permitir consulta client-side ou server-side direta.
+   - *Motivo*: Facilita proxying, previne potenciais bloqueios de CORS e encapsula tratamento de status HTTP.
+
+3. **Arquitetura em Blocos Visuais Sóbrios**:
+   - *Decisão*: Dividir os resultados em blocos semânticos (`CompanyOverview`, `CompanyRegistration`, `CompanyActivities`, `CompanyAddress`, `CompanyPartners`) em vez de dezenas de pequenos cards soltos.
+   - *Motivo*: Seguir as diretrizes do Design System Catppuccin Mocha e facilitar leitura técnica e rápida dos dados.

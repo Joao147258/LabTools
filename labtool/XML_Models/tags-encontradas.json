@@ -1,66 +1,502 @@
 {
   "tags": [
     {
-      "tag": "cnpj",
+      "tag": "aliq_cofins",
       "tipo": "INDIVIDUAL",
       "ocorrencias": 1,
       "comoBloco": 0,
       "comoIndividual": 1
     },
     {
-      "tag": "cpf",
+      "tag": "aliq_csll",
       "tipo": "INDIVIDUAL",
       "ocorrencias": 1,
       "comoBloco": 0,
       "comoIndividual": 1
     },
     {
-      "tag": "dest",
-      "tipo": "BLOCO",
-      "ocorrencias": 1,
-      "comoBloco": 1,
-      "comoIndividual": 0
-    },
-    {
-      "tag": "emit",
-      "tipo": "BLOCO",
-      "ocorrencias": 1,
-      "comoBloco": 1,
-      "comoIndividual": 0
-    },
-    {
-      "tag": "infnfe",
-      "tipo": "BLOCO",
-      "ocorrencias": 1,
-      "comoBloco": 1,
-      "comoIndividual": 0
-    },
-    {
-      "tag": "nfe",
-      "tipo": "BLOCO",
-      "ocorrencias": 1,
-      "comoBloco": 1,
-      "comoIndividual": 0
-    },
-    {
-      "tag": "nfeproc",
-      "tipo": "BLOCO",
-      "ocorrencias": 1,
-      "comoBloco": 1,
-      "comoIndividual": 0
-    },
-    {
-      "tag": "xnome",
+      "tag": "aliq_inss",
       "tipo": "INDIVIDUAL",
-      "ocorrencias": 2,
+      "ocorrencias": 1,
       "comoBloco": 0,
-      "comoIndividual": 2
+      "comoIndividual": 1
+    },
+    {
+      "tag": "aliq_irrf",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "aliq_iss",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "aliq_pis",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "bairro_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "bairro_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "bc_cofins",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "bc_csll",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "bc_inss",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "bc_irrf",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "bc_pis",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "c_classtrib",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cancelada",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cep_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cep_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cidade_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cidade_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cidade_local_op",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cidade_local_prest",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cnpj_cpf_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cnpj_cpf_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "cnpj_cpf_prestador",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "codigo_nbs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "complemento_ende_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "complemento_ende_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "consumo_pessoal",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "data_emissao",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "deducao",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "descricao",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "email_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "endereco_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "endereco_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "exterior_dest",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "exterior_op",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "exterior_prestacao_servico",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "fone_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "forma_de_pagamento",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "id_codigo_servico",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "ie_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "ie_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "im_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "im_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "ind_op",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "iss_retido",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "notafiscal",
+      "tipo": "BLOCO",
+      "ocorrencias": 1,
+      "comoBloco": 1,
+      "comoIndividual": 0
+    },
+    {
+      "tag": "numero_ende_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "numero_ende_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "pais_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "pais_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "pais_local_prest",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "pessoa_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "pessoa_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "razao_social_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "razao_social_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "rps",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "serie_rps",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "sistema_gerador",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "uf_destinatario",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "uf_destinatario_cbsibs",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "uf_local_op",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "uf_local_prest",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "valor_cofins",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "valor_csll",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "valor_inss",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "valor_irrf",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "valor_iss",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "valor_nf",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "valor_pis",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
+    },
+    {
+      "tag": "valor_servico",
+      "tipo": "INDIVIDUAL",
+      "ocorrencias": 1,
+      "comoBloco": 0,
+      "comoIndividual": 1
     }
   ],
-  "atributos": [
-    {
-      "atributo": "id",
-      "ocorrencias": 1
-    }
-  ]
+  "atributos": []
 }

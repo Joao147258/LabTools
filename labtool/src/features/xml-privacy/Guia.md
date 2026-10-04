@@ -2,7 +2,7 @@
 
 > **Módulo**: `src/features/xml-privacy/`  
 > **Rota Next.js**: `/xml-privacy`  
-> **Papel**: Motor e Interface de Inspeção, Privacidade e Sanitização Local de Documentos XML.
+> **Papel**: Motor e Interface de Inspeção, Classificação, Privacidade e Sanitização Local de Documentos XML Fiscais.
 
 ---
 
@@ -11,8 +11,9 @@
 O **XML Privacy** é a funcionalidade do LabTool projetada para higienizar, mascarar e remover informações de identificação pessoal (PII) e dados fiscais sensíveis contidos em documentos XML (como NF-e, CT-e, NFS-e, MDF-e, eventos e cadastros fiscais).
 
 ### Por Que Foi Criado?
+
 - **Compartilhamento Seguro**: Permitir que desenvolvedores, contadores e analistas de suporte compartilhem arquivos XML para depuração e testes sem expor dados reais de clientes, parceiros ou fornecedores.
-- **Conformidade com LGPD**: Anonimizar CPFs, CNPJs, nomes, credenciais, e-mails e telefones contidos em estruturas fiscais.
+- **Conformidade com LGPD**: Anonimizar CPFs, CNPJs, razões sociais, nomes, credenciais, e-mails, telefones e identificadores contidos em estruturas fiscais.
 - **Privacidade Soberana no Cliente**: O processamento é **100% executado no navegador do usuário (Client-Side)**. Nenhum byte de XML é enviado para a internet ou para servidores externos.
 
 ---
@@ -34,6 +35,7 @@ O motor do XML Privacy opera estritamente sob o seguinte princípio arquitetural
 ```
 
 ### Regras Fundamentais de Separação:
+
 1. **O Inspector não altera XML**: Ele apenas lê o documento parseado e produz uma lista estruturada de campos (`XmlField[]`).
 2. **O Sanitizer não classifica tags**: Ele apenas recebe o XML original e a lista de `XmlField[]` decidida pelo usuário/catálogo e aplica as transformações.
 3. **Inspector e Sanitizer não dependem um do outro**: A comunicação entre eles é desacoplada e mediada exclusivamente pelos contratos do **Domain** e orquestrada pela camada de **Presentation** (React).
@@ -76,14 +78,14 @@ src/features/xml-privacy/
 ## 4. Responsabilidade Detalhada dos Componentes
 
 | Arquivo / Módulo | Camada | O Que FAZ | O Que NÃO FAZ |
-|---|---|---|---|
-| [`domain/sanitization.types.ts`](file://./domain/sanitization.types.ts) | **Domain** | Define os tipos `XmlField`, `SanitizationResult`, `FieldCategory`, `SanitizationAction`, `XmlFieldKind`. | Não possui código executável ou dependência de bibliotecas. |
-| [`catalog/sensitive-tags.ts`](file://./catalog/sensitive-tags.ts) | **Catalog** | Mantém dicionário `SENSITIVE_TAGS`, normaliza nomes de tags (`normalizeTagName`), exporta `classifyTag` e `shouldSelectByDefault`. | Não lê arquivos XML, não inspeciona nós e não altera DOM. |
-| [`application/xml-parser.ts`](file://./application/xml-parser.ts) | **Application** | Valida limite de tamanho (20MB), bloqueia `<!DOCTYPE` e `<!ENTITY` (XXE), invoca `DOMParser` nativo com tratamento rigoroso de erros. | Não inspeciona nem modifica campos. |
-| [`application/xml-inspector.ts`](file://./application/xml-inspector.ts) | **Application** | Percorre recursivamente nós (elementos, atributos `@`, comentários, CDATA, textos mistos), gera caminhos XPath legíveis e posições estruturais determinísticas (`position: number[]`), classifica tags via catálogo e ordena por prioridade. | Não altera o XML, não sanitiza nós e não depende de `xml-sanitizer.ts`. |
-| [`application/text-scrub.ts`](file://./application/text-scrub.ts) | **Application** | Aplica expressões regulares ordenadas (E-mails -> CNPJs -> CPFs -> Telefones) em strings de texto livre, delegando tokens para callback determinístico. | Não manipula nós DOM nem gerencia estado. |
-| [`application/xml-sanitizer.ts`](file://./application/xml-sanitizer.ts) | **Application** | Parseia nova árvore DOM limpa, localiza nós por `position: number[]`, executa ações `REPLACE`, `SCRUB_TEXT`, `REMOVE_SUBTREE`, gera tokens determinísticos (`[CPF_001]`), serializa via `XMLSerializer` e monta o `SanitizationSummary`. | Não classifica tags e não manipula UI. |
-| [`presentation/XmlPrivacyView.tsx`](file://./presentation/XmlPrivacyView.tsx) | **Presentation** | Coordena o ciclo de vida (Upload -> Inspeção -> Seleção Interativa -> Recálculo reativo em tempo real via `useMemo` -> Download/Cópia). | Não contém lógica de parsing ou manipulação direta de DOM XML. |
+| --- | --- | --- | --- |
+| `domain/sanitization.types.ts` | **Domain** | Define os tipos `XmlField`, `SanitizationResult`, `FieldCategory`, `SanitizationAction`, `XmlFieldKind`. | Não possui código executável ou dependência de bibliotecas. |
+| `catalog/sensitive-tags.ts` | **Catalog** | Mantém dicionário `SENSITIVE_TAGS`, normaliza nomes de tags (`normalizeTagName`), exporta `classifyTag` (incluindo heurísticas robustas de fallback para `RAZAO_SOCIAL`, `NOME`, `INSCRICAO`) e `shouldSelectByDefault`. | Não lê arquivos XML, não inspeciona nós e não altera DOM. |
+| `application/xml-parser.ts` | **Application** | Valida limite de tamanho (20MB), bloqueia `<!DOCTYPE` e `<!ENTITY` (XXE fail-stop), invoca `DOMParser` nativo com tratamento rigoroso de erros. | Não inspeciona nem modifica campos. |
+| `application/xml-inspector.ts` | **Application** | Percorre recursivamente nós (elementos, atributos `@`, comentários, CDATA, textos mistos), gera caminhos XPath legíveis e posições estruturais determinísticas (`position: number[]`), classifica tags via catálogo e ordena por prioridade. | Não altera o XML, não sanitiza nós e não depende de `xml-sanitizer.ts`. |
+| `application/text-scrub.ts` | **Application** | Aplica expressões regulares ordenadas (E-mails -> CNPJs -> CPFs -> Telefones) em strings de texto livre, delegando tokens para callback determinístico. | Não manipula nós DOM nem gerencia estado. |
+| `application/xml-sanitizer.ts` | **Application** | Parseia nova árvore DOM limpa, localiza nós pela coordenada `position: number[]`, executa ações `REPLACE`, `SCRUB_TEXT`, `REMOVE_SUBTREE`, gera tokens determinísticos (`[CPF_001]`), serializa via `XMLSerializer` e monta o `SanitizationSummary`. | Não classifica tags e não manipula UI. |
+| `presentation/XmlPrivacyView.tsx` | **Presentation** | Coordena o ciclo de vida (Upload -> Inspeção -> Seleção Interativa -> Recálculo reativo em tempo real via `useMemo` -> Download/Cópia). | Não contém lógica de parsing ou manipulação direta de DOM XML. |
 
 ---
 
@@ -111,7 +113,8 @@ O fluxo completo de execução do XML Privacy é estruturado em **7 fases sequen
        ▼
  4. CLASSIFICAÇÃO SEMÂNTICA (sensitive-tags.ts)
     • Consulta catálogo de tags conhecidas (NFe, CTe, NFSe, etc.)
-    • Atribui FieldCategory (CPF, CNPJ, NOME, CONTATO, etc.)
+    • Heurísticas de normalização e prefixo (razao, xrazao, nome, fone, etc.)
+    • Atribui FieldCategory (RAZAO_SOCIAL, CPF, CNPJ, NOME, CONTATO, etc.)
     • Define ação sugerida (REPLACE, SCRUB_TEXT, REMOVE_SUBTREE)
        │
        ▼
@@ -152,13 +155,31 @@ O fluxo completo de execução do XML Privacy é estruturado em **7 fases sequen
 
 ---
 
-## 6. Demonstração Prática com Exemplo Real
+## 6. Catálogo de Tags e Heurísticas de Classificação
 
-Para entender como cada componente transforma os dados, acompanhe o exemplo prático abaixo:
+O arquivo `catalog/sensitive-tags.ts` contém o mapeamento declarativo e as regras de fallback:
 
-### 6.1 XML de Entrada (Original)
+### 6.1 Tags de Razão Social e Nomes Empresariais (`RAZAO_SOCIAL`)
+Tags mapeadas explicitamente:
+- `razaosocial`, `razao_social`, `razaosocialdestinatario`, `razaosocialdestinatariocbsibs`
+- `razaosocialprestadorcbsibs`, `razaosocialprestador`, `razaosocialtomador`, `razaosocialintermediario`
+- `xnomerec`, `xnomedest`, `razao`, `xrazao`, `razsoc`, `nomeempresarial`, `xnomeemit`, `xnomeresp`
 
-Suponha um arquivo XML fiscal contendo dados cadastrais e observações livres:
+### 6.2 Heurísticas de Fallback (`classifyTag`)
+Quando uma tag não possui correspondência exata no dicionário `SENSITIVE_TAGS`:
+1. `normalized.startsWith("razao")` ou `normalized.startsWith("xrazao")` ou `normalized.startsWith("nomeempresarial")` ➔ `RAZAO_SOCIAL` (`REPLACE`);
+2. `normalized.startsWith("cnpj")` ➔ `CNPJ` (`REPLACE`);
+3. `normalized.startsWith("cpf")` ➔ `CPF` (`REPLACE`);
+4. `normalized.startsWith("fone")`, `telefone`, `celular`, `email` ➔ `CONTATO` (`REPLACE`);
+5. `normalized.startsWith("xnome")` ou `normalized.startsWith("nome")` ➔ `NOME` (`REPLACE`);
+6. `normalized.startsWith("ndps")`, `iddps`, `idnfse` ➔ `IDENTIFICADOR_DPS` (`REPLACE`);
+7. Proteção contra falso positivo em tipo de pessoa: `<pessoa_destinatario>J</pessoa_destinatario>` é classificado como `OUTRO` (`PRESERVE`).
+
+---
+
+## 7. Demonstração Prática com Exemplo Real
+
+### 7.1 XML de Entrada (Original)
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -195,36 +216,32 @@ Suponha um arquivo XML fiscal contendo dados cadastrais e observações livres:
 
 ---
 
-### 6.2 O Que o `Inspector` e o `Catalog` Descobrem
-
-Durante a inspeção, o documento é percorrido e transformado na coleção `XmlField[]`:
+### 7.2 O Que o `Inspector` e o `Catalog` Descobrem
 
 | Tag / Path | Categoria (`FieldCategory`) | Kind | Ação Sugerida | Selecionado Padrão? |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | `infNFe/@Id` | `IDENTIFICADOR_DPS` | `attribute` | `REPLACE` | Sim |
 | `emit/CNPJ` | `CNPJ` | `element` | `REPLACE` | Sim |
-| `emit/xNome` | `NOME` | `element` | `REPLACE` | Sim |
+| `emit/xNome` | `RAZAO_SOCIAL` | `element` | `REPLACE` | Sim |
 | `emit/enderEmit/fone` | `CONTATO` | `element` | `REPLACE` | Sim |
 | `dest/CPF` | `CPF` | `element` | `REPLACE` | Sim |
 | `dest/xNome` | `NOME` | `element` | `REPLACE` | Sim |
 | `dest/email` | `CONTATO` | `element` | `REPLACE` | Sim |
 | `infAdic/infCpl` | `TEXTO_LIVRE` | `element` | `SCRUB_TEXT` | Sim |
-| `Signature` | `ASSINATURA` | `element` | `REMOVE_SUBTREE`| Sim |
+| `Signature` | `ASSINATURA` | `element` | `REMOVE_SUBTREE` | Sim |
 | `enderEmit/xLgr` | `ENDERECO` | `element` | `REPLACE` | Não (opcional) |
 
 ---
 
-### 6.3 A Execução do `Sanitizer`
-
-O `xml-sanitizer.ts` executa as seguintes operações:
+### 7.3 A Execução do `Sanitizer`
 
 1. **Tokens Sintéticos Determinísticos (`ReplacementGenerator`)**:
    - Cada valor sensível recebe um token baseado na sua categoria.
    - O mesmo CNPJ ou CPF repetido em diferentes partes do documento recebe **o mesmo token sintético**, preservando a correlação lógica do arquivo.
    - `12345678000195` ➔ `[CNPJ_001]`
    - `12345678901` ➔ `[CPF_001]`
-   - `EMPRESA MODELO DISTRIBUIDORA LTDA` ➔ `[NOME_001]`
-   - `JOAO DA SILVA` ➔ `[NOME_002]`
+   - `EMPRESA MODELO DISTRIBUIDORA LTDA` ➔ `[RAZAO_SOCIAL_001]`
+   - `JOAO DA SILVA` ➔ `[NOME_001]`
    - `joao.silva@provedor.com.br` ➔ `[CONTATO_001]`
 2. **Anonimização de Texto Livre (`text-scrub.ts`)**:
    - No campo `<infCpl>`, a estrutura original da frase é mantida, mas os padrões sensíveis internos são substituídos:
@@ -235,7 +252,7 @@ O `xml-sanitizer.ts` executa as seguintes operações:
 
 ---
 
-### 6.4 XML de Saída Sanitizado (`sanitizedXml`)
+### 7.4 XML de Saída Sanitizado (`sanitizedXml`)
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -244,7 +261,7 @@ O `xml-sanitizer.ts` executa as seguintes operações:
     <infNFe Id="[IDENTIFICADOR_DPS_001]" versao="4.00">
       <emit>
         <CNPJ>[CNPJ_001]</CNPJ>
-        <xNome>[NOME_001]</xNome>
+        <xNome>[RAZAO_SOCIAL_001]</xNome>
         <enderEmit>
           <xLgr>AVENIDA PAULISTA</xLgr>
           <nro>1000</nro>
@@ -254,7 +271,7 @@ O `xml-sanitizer.ts` executa as seguintes operações:
       </emit>
       <dest>
         <CPF>[CPF_001]</CPF>
-        <xNome>[NOME_002]</xNome>
+        <xNome>[NOME_001]</xNome>
         <email>[CONTATO_001]</email>
       </dest>
       <infAdic>
@@ -267,7 +284,7 @@ O `xml-sanitizer.ts` executa as seguintes operações:
 
 ---
 
-### 6.5 Resumo Quantitativo (`SanitizationSummary`)
+### 7.5 Resumo Quantitativo (`SanitizationSummary`)
 
 ```json
 {
@@ -281,11 +298,11 @@ O `xml-sanitizer.ts` executa as seguintes operações:
 
 ---
 
-## 7. Contratos e Tipos Centrais do Domínio
+## 8. Contratos e Tipos Centrais do Domínio
 
-Os tipos definidos em [`src/features/xml-privacy/domain/sanitization.types.ts`](file://./domain/sanitization.types.ts) constituem a linguagem única de todo o motor:
+Os tipos definidos em `domain/sanitization.types.ts` constituem a linguagem única de todo o motor:
 
-### 7.1 Categorias de Sensibilidade (`FieldCategory`)
+### 8.1 Categorias de Sensibilidade (`FieldCategory`)
 
 ```typescript
 export type FieldCategory =
@@ -304,7 +321,7 @@ export type FieldCategory =
   | "OUTRO";            // Nós não classificados como sensíveis
 ```
 
-### 7.2 Ações de Sanitização (`SanitizationAction`)
+### 8.2 Ações de Sanitização (`SanitizationAction`)
 
 ```typescript
 export type SanitizationAction =
@@ -314,7 +331,7 @@ export type SanitizationAction =
   | "REMOVE_SUBTREE"; // Remove o nó e todos os seus filhos da árvore XML
 ```
 
-### 7.3 Interface do Campo Inspecionado (`XmlField`)
+### 8.3 Interface do Campo Inspecionado (`XmlField`)
 
 ```typescript
 export interface XmlField {
@@ -332,21 +349,9 @@ export interface XmlField {
 }
 ```
 
-### 7.4 Resultado Consolidado (`SanitizationResult`)
-
-```typescript
-export interface SanitizationResult {
-  success: boolean;            // Indica conclusão com sucesso
-  sanitizedXml: string;        // String contendo o documento XML higienizado
-  summary: SanitizationSummary;// Métricas consolidadas das operações
-  fields: XmlField[];          // Lista completa dos campos
-  errors: string[];            // Eventuais mensagens de erro
-}
-```
-
 ---
 
-## 8. Segurança e Invariantes do Sistema
+## 9. Segurança e Invariantes do Sistema
 
 1. **Prevenção Ativa Contra XXE (XML External Entity)**:
    - A função `assertSafeXmlSource` analisa a string de entrada via regex antes de invocar qualquer parser, bloqueando sumariamente qualquer declaração `<!DOCTYPE` ou `<!ENTITY`.
@@ -359,7 +364,7 @@ export interface SanitizationResult {
 
 ---
 
-## 9. Como Testar e Validar o Módulo
+## 10. Como Testar e Validar o Módulo
 
 O XML Privacy conta com cobertura integral de testes unitários e de integração através do **Vitest**:
 
@@ -368,9 +373,11 @@ O XML Privacy conta com cobertura integral de testes unitários e de integraçã
 npm test tests/features/xml-privacy
 ```
 
-### Testes Disponíveis:
-- [`tests/features/xml-privacy/xml-inspector.test.ts`](file://./tests/features/xml-privacy/xml-inspector.test.ts): Valida parsing seguro, percurso DOM, detecção de atributos, comentários e priorização.
-- [`tests/features/xml-privacy/xml-sanitizer.test.ts`](file://./tests/features/xml-privacy/xml-sanitizer.test.ts): Valida geração de tokens, mutações `REPLACE`, `SCRUB_TEXT`, `REMOVE_SUBTREE` e cálculo de métricas.
-- [`tests/features/xml-privacy/text-scrub.test.ts`](file://./tests/features/xml-privacy/text-scrub.test.ts): Valida regex de CPFs, CNPJs, e-mails e telefones em textos livres.
-- [`tests/features/xml-privacy/presentation.test.tsx`](file://./tests/features/xml-privacy/presentation.test.tsx): Valida upload, transição de estado da UI, toggles e reatividade.
-- [`tests/features/xml-privacy/integration-e2e.test.ts`](file://./tests/features/xml-privacy/integration-e2e.test.ts): Valida o pipeline completo de ponta a ponta com fixtures fiscais reais.
+### Suíte de Testes:
+
+- `tests/features/xml-privacy/privacy-invariants.test.ts`: **Invariantes Fundamentais de Privacidade** — Garante que razões sociais fiscais (`razao_social_destinatario`, `razao_social_destinatario_cbsibs`, `nome_empresarial`, etc.) e dados PII nunca vazem sem anonimização, validando também que flags de pessoa jurídica (`<pessoa_destinatario>J</pessoa_destinatario>`) não gerem falsos positivos.
+- `tests/features/xml-privacy/xml-inspector.test.ts`: Valida parsing seguro, percurso DOM, detecção de atributos, comentários e priorização.
+- `tests/features/xml-privacy/xml-sanitizer.test.ts`: Valida geração de tokens, mutações `REPLACE`, `SCRUB_TEXT`, `REMOVE_SUBTREE` e cálculo de métricas.
+- `tests/features/xml-privacy/text-scrub.test.ts`: Valida regex de CPFs, CNPJs, e-mails e telefones em textos livres.
+- `tests/features/xml-privacy/presentation.test.tsx`: Valida upload, transição de estado da UI, toggles e reatividade.
+- `tests/features/xml-privacy/integration-e2e.test.ts`: Valida o pipeline completo de ponta a ponta com fixtures fiscais reais.

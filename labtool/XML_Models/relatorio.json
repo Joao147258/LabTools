@@ -1,12 +1,11 @@
 {
   "tipo": "xml_sintetico_para_testes",
-  "geradoEm": "2026-10-03T00:27:24.816334+00:00",
+  "geradoEm": "2026-10-04T02:09:55.578689+00:00",
   "nota": "Os arquivos gerados são cópias sintéticas para teste. Não devem ser tratados como documentos fiscalmente válidos. Assinaturas digitais e referências criptográficas podem deixar de ser válidas após a transformação.",
   "arquivosOrigemEncontrados": 1,
   "contagens": {
     "comentarios_ou_pi_removidos": 0,
-    "atributos_substituidos": 1,
-    "textos_substituidos": 4,
+    "textos_substituidos": 69,
     "arquivos_gerados": 1
   },
   "erros": []

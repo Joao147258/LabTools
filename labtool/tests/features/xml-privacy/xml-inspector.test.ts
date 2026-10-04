@@ -1,7 +1,138 @@
 import { describe, it, expect } from "vitest";
 import { inspectXml } from "@/features/xml-privacy/application/xml-inspector";
+import {
+  classifyTag,
+  shouldSelectByDefault,
+} from "@/features/xml-privacy/catalog/sensitive-tags";
 
 describe("XML Privacy — XML Inspector", () => {
+  describe("Classificação de Tags e Catálogo de Privacidade", () => {
+    it("deve classificar todas as variações de Razão Social como RAZAO_SOCIAL e REPLACE", () => {
+      const razaoTags = [
+        "razao_social",
+        "razao_social_destinatario",
+        "razao_social_destinatario_cbsibs",
+        "razao_social_prestador",
+        "razao_social_prestador_cbsibs",
+        "razaoSocialTomador",
+        "razaoSocialIntermediario",
+        "xRazaoSocial",
+        "xrazao",
+        "razsoc",
+        "nome_empresarial",
+        "nome_empresarial_destinatario",
+        "xnomerec",
+        "xnomedest",
+      ];
+
+      for (const tag of razaoTags) {
+        const classification = classifyTag(tag);
+        expect(classification).toEqual({
+          category: "RAZAO_SOCIAL",
+          suggestedAction: "REPLACE",
+        });
+      }
+
+      expect(shouldSelectByDefault("RAZAO_SOCIAL")).toBe(true);
+    });
+
+    it("deve classificar variações de Nome Pessoal como NOME e REPLACE", () => {
+      const nomeTags = [
+        "nome",
+        "xNome",
+        "nome_destinatario",
+        "nome_tomador",
+        "nome_prestador",
+        "nome_responsavel",
+        "nome_representante",
+        "nome_contato",
+        "nome_cliente",
+        "nome_completo",
+        "nome_pessoa",
+      ];
+
+      for (const tag of nomeTags) {
+        const classification = classifyTag(tag);
+        expect(classification).toEqual({
+          category: "NOME",
+          suggestedAction: "REPLACE",
+        });
+      }
+
+      expect(shouldSelectByDefault("NOME")).toBe(true);
+    });
+
+    it("NÃO deve classificar pessoa_destinatario como NOME (proteção contra falso positivo)", () => {
+      const classification = classifyTag("pessoa_destinatario");
+      expect(classification.category).toBe("OUTRO");
+      expect(classification.suggestedAction).toBe("PRESERVE");
+      expect(shouldSelectByDefault("OUTRO")).toBe(false);
+
+      const classificationCbsibs = classifyTag("pessoa_destinatario_cbsibs");
+      expect(classificationCbsibs.category).toBe("OUTRO");
+      expect(classificationCbsibs.suggestedAction).toBe("PRESERVE");
+    });
+
+    it("deve classificar campos de documento e contato combinados", () => {
+      expect(classifyTag("cnpj_cpf_destinatario")).toEqual({
+        category: "CPF",
+        suggestedAction: "REPLACE",
+      });
+      expect(classifyTag("cnpj_cpf_prestador")).toEqual({
+        category: "CPF",
+        suggestedAction: "REPLACE",
+      });
+      expect(classifyTag("cnpj_cpf_destinatario_cbsibs")).toEqual({
+        category: "CPF",
+        suggestedAction: "REPLACE",
+      });
+
+      expect(classifyTag("fone_destinatario")).toEqual({
+        category: "CONTATO",
+        suggestedAction: "REPLACE",
+      });
+      expect(classifyTag("email_destinatario")).toEqual({
+        category: "CONTATO",
+        suggestedAction: "REPLACE",
+      });
+    });
+
+    it("deve manter ENDERECO e INSCRICAO como PRESERVE e não selecionados por padrão", () => {
+      const addressTags = [
+        "CEP",
+        "logradouro",
+        "numero",
+        "nro",
+        "complemento",
+        "bairro",
+        "municipio",
+        "UF",
+        "pais",
+      ];
+      for (const tag of addressTags) {
+        const classification = classifyTag(tag);
+        expect(classification.category).toBe("ENDERECO");
+        expect(classification.suggestedAction).toBe("PRESERVE");
+      }
+      expect(shouldSelectByDefault("ENDERECO")).toBe(false);
+
+      const inscricaoTags = [
+        "IM",
+        "IE",
+        "InscricaoMunicipal",
+        "InscricaoEstadual",
+        "im_destinatario",
+        "ie_destinatario",
+      ];
+      for (const tag of inscricaoTags) {
+        const classification = classifyTag(tag);
+        expect(classification.category).toBe("INSCRICAO");
+        expect(classification.suggestedAction).toBe("PRESERVE");
+      }
+      expect(shouldSelectByDefault("INSCRICAO")).toBe(false);
+    });
+  });
+
   describe("Validações Defensivas de Entrada", () => {
     it("deve rejeitar XML vazio ou composto apenas por espaços", () => {
       expect(() => inspectXml("")).toThrow("XML vazio ou inválido.");

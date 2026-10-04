@@ -1,8 +1,41 @@
 "use client";
 
+import React, { useState, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { formatCnpj, normalizeCnpj, validateCnpj } from "@/features/cnpj-intelligence/domain/cnpj";
 
 export default function HomePage() {
+  const router = useRouter();
+  const [quickCnpj, setQuickCnpj] = useState("");
+  const [quickError, setQuickError] = useState<string | null>(null);
+
+  const handleCnpjChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatCnpj(e.target.value);
+    setQuickCnpj(formatted);
+    setQuickError(null);
+  }, []);
+
+  const handleQuickSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      const digits = normalizeCnpj(quickCnpj);
+
+      if (!digits) {
+        setQuickError("Digite um CNPJ para consultar.");
+        return;
+      }
+
+      if (!validateCnpj(digits)) {
+        setQuickError("CNPJ inválido.");
+        return;
+      }
+
+      router.push(`/cnpj-intelligence?cnpj=${digits}`);
+    },
+    [quickCnpj, router]
+  );
+
   return (
     <div
       style={{
@@ -29,7 +62,14 @@ export default function HomePage() {
         }}
       >
         {/* Brand / Cabeçalho */}
-        <header style={{ display: "flex", flexDirection: "column", gap: "var(--space-2xs)", textAlign: "center" }}>
+        <header
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-2xs)",
+            textAlign: "center",
+          }}
+        >
           <h1
             style={{
               fontSize: "var(--font-size-ui-2xl)",
@@ -47,7 +87,7 @@ export default function HomePage() {
               color: "var(--color-subtext0)",
             }}
           >
-            Plataforma técnica modular para processamento, privacidade e análise de dados.
+            Plataforma técnica modular para processamento, privacidade e inteligência cadastral.
           </p>
         </header>
 
@@ -159,12 +199,10 @@ export default function HomePage() {
               letterSpacing: "0.5px",
             }}
           >
-            Consultar CNPJ
+            Consulta Rápida de CNPJ
           </span>
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
+            onSubmit={handleQuickSubmit}
             style={{
               display: "flex",
               flexWrap: "wrap",
@@ -173,13 +211,17 @@ export default function HomePage() {
           >
             <input
               type="text"
+              value={quickCnpj}
+              onChange={handleCnpjChange}
               placeholder="00.000.000/0000-00"
+              maxLength={18}
+              aria-label="Número do CNPJ para consulta rápida"
               style={{
                 flex: "1 1 240px",
                 height: "44px",
                 padding: "0 var(--space-md)",
                 backgroundColor: "var(--color-base)",
-                border: "1px solid var(--color-surface1)",
+                border: `1px solid ${quickError ? "var(--color-red)" : "var(--color-surface1)"}`,
                 borderRadius: "var(--radius-sm)",
                 color: "var(--color-text)",
                 fontFamily: "var(--font-family-code)",
@@ -205,6 +247,17 @@ export default function HomePage() {
               Consultar
             </button>
           </form>
+          {quickError && (
+            <span
+              style={{
+                fontSize: "var(--font-size-ui-xs)",
+                color: "var(--color-red)",
+                fontWeight: 500,
+              }}
+            >
+              {quickError}
+            </span>
+          )}
         </section>
       </main>
     </div>

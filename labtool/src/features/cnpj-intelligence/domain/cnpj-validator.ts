@@ -1,6 +1,5 @@
 /**
- * CNPJ Intelligence — Validator
- * (A ser implementado na Etapa 24)
+ * CNPJ Intelligence — Domain Validator
  */
 
-export {};
+export { validateCnpj } from "./cnpj";

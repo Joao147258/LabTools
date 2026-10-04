@@ -1,6 +1,5 @@
 /**
- * CNPJ Intelligence — Normalizer
- * (A ser implementado na Etapa 23)
+ * CNPJ Intelligence — Domain Normalizer
  */
 
-export {};
+export { normalizeCnpj, formatCnpj } from "./cnpj";
