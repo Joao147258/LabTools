@@ -40,5 +40,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local automation scripts
+# local automation & reconnaissance scripts
 /scripts/find-user-references.sh
+/scripts/scan-project-context.sh
+/scripts/scan-project-context.mjs
+*find-user-references*
+*scan-project-context*
+
+# internal agent configuration
+GEMINI.md
+gemini.md
+

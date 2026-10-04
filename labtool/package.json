@@ -11,8 +11,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e:xml-privacy": "vitest run tests/features/xml-privacy/",
-    "scan:references": "bash ./scripts/find-user-references.sh",
-    "validate": "npm run typecheck && npm run lint && npm run test && npm run build"
+    "scan:references": "bash ./scripts/scan-project-context.sh",
+    "scan:context": "node ./scripts/scan-project-context.mjs",
+    "validate": "npm run scan:context -- --strict && npm run typecheck && npm run lint && npm run test && npm run build"
   },
   "dependencies": {
     "next": "16.3.8",

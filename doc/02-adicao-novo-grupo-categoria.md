@@ -16,7 +16,7 @@ Uma categoria semântica representa a natureza conceitual de uma informação de
 ## 2. Passo a Passo Completo
 
 ### Passo 1: Atualizar o Tipo de Domínio no XML Privacy
-No arquivo [`src/features/xml-privacy/domain/sanitization.types.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-privacy/domain/sanitization.types.ts), adicione a nova categoria ao tipo union `FieldCategory`:
+No arquivo [`src/features/xml-privacy/domain/sanitization.types.ts`](../labtool/src/features/xml-privacy/domain/sanitization.types.ts), adicione a nova categoria ao tipo union `FieldCategory`:
 
 ```typescript
 export type FieldCategory =
@@ -39,7 +39,7 @@ export type FieldCategory =
 ---
 
 ### Passo 2: Atualizar o Tipo de Domínio no XML Comparator
-No arquivo [`src/features/xml-comparator/domain/export.types.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-comparator/domain/export.types.ts), adicione a nova categoria ao tipo union `ComparisonFieldCategory`:
+No arquivo [`src/features/xml-comparator/domain/export.types.ts`](../labtool/src/features/xml-comparator/domain/export.types.ts), adicione a nova categoria ao tipo union `ComparisonFieldCategory`:
 
 ```typescript
 export type ComparisonFieldCategory =
@@ -61,7 +61,7 @@ export type ComparisonFieldCategory =
 ---
 
 ### Passo 3: Cadastrar Tags no Catálogo do XML Privacy
-No arquivo [`src/features/xml-privacy/catalog/sensitive-tags.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-privacy/catalog/sensitive-tags.ts):
+No arquivo [`src/features/xml-privacy/catalog/sensitive-tags.ts`](../labtool/src/features/xml-privacy/catalog/sensitive-tags.ts):
 
 1. Associe as tags desejadas à nova categoria:
    ```typescript
@@ -91,7 +91,7 @@ No arquivo [`src/features/xml-privacy/catalog/sensitive-tags.ts`](file:///home/j
 ---
 
 ### Passo 4: Atualizar a Política Padrão do XML Comparator
-No arquivo [`src/features/xml-comparator/catalog/export-sensitive-fields.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-comparator/catalog/export-sensitive-fields.ts):
+No arquivo [`src/features/xml-comparator/catalog/export-sensitive-fields.ts`](../labtool/src/features/xml-comparator/catalog/export-sensitive-fields.ts):
 
 1. Associe as tags à nova categoria:
    ```typescript
@@ -129,7 +129,7 @@ No arquivo [`src/features/xml-comparator/catalog/export-sensitive-fields.ts`](fi
 ---
 
 ### Passo 5: Adicionar o Estilo Visual do Badge na Apresentação
-No arquivo [`src/features/xml-privacy/presentation/XmlFieldsTable.tsx`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-privacy/presentation/XmlFieldsTable.tsx), adicione o estilo do badge para a nova categoria na função `getCategoryBadgeStyle()`:
+No arquivo [`src/features/xml-privacy/presentation/XmlFieldsTable.tsx`](../labtool/src/features/xml-privacy/presentation/XmlFieldsTable.tsx), adicione o estilo do badge para a nova categoria na função `getCategoryBadgeStyle()`:
 
 ```typescript
 function getCategoryBadgeStyle(category: FieldCategory): { bg: string; color: string; border: string } {
@@ -148,7 +148,7 @@ function getCategoryBadgeStyle(category: FieldCategory): { bg: string; color: st
 ```
 
 > [!TIP]
-> Utilize as variáveis de cores do Design System Catppuccin Mocha definidas em [`DESIGN.md`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/DESIGN.md), tais como `var(--color-green)`, `var(--color-teal)`, `var(--color-maroon)`, `var(--color-mauve)`, etc.
+> Utilize as variáveis de cores do Design System Catppuccin Mocha definidas em [`DESIGN.md`](../labtool/DESIGN.md), tais como `var(--color-green)`, `var(--color-teal)`, `var(--color-maroon)`, `var(--color-mauve)`, etc.
 
 ---
 

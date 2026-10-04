@@ -34,6 +34,15 @@ yarn-error.log*
 *.pem
 .vercel
 
-# local automation scripts
-scripts/find-user-references.sh
+# local automation & reconnaissance scripts
+scripts/
 labtool/scripts/find-user-references.sh
+labtool/scripts/scan-project-context.sh
+labtool/scripts/scan-project-context.mjs
+*find-user-references*
+*scan-project-context*
+
+# internal agent configuration
+GEMINI.md
+gemini.md
+

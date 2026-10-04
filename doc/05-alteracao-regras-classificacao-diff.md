@@ -1,6 +1,6 @@
 # Manual 05 — Alteração de Regras de Classificação no Comparador XML
 
-Este manual orienta a customização e manutenção das regras semânticas do **XML Comparator**, governadas pelo [`diff-classifier.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-comparator/application/diff-classifier.ts).
+Este manual orienta a customização e manutenção das regras semânticas do **XML Comparator**, governadas pelo [`diff-classifier.ts`](../labtool/src/features/xml-comparator/application/diff-classifier.ts).
 
 ---
 
@@ -24,7 +24,7 @@ Ao comparar dois XMLs fiscais (por exemplo, um XML Aprovado versus um XML Rejeit
 
 ## 2. A Esteira de 8 Níveis de Precedência Semântica
 
-A função `isContextualTag(tag, path)` em [`src/features/xml-comparator/application/diff-classifier.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-comparator/application/diff-classifier.ts) avalia a tag e seu caminho posicional estrutural seguindo uma ordem de precedência estrita:
+A função `isContextualTag(tag, path)` em [`src/features/xml-comparator/application/diff-classifier.ts`](../labtool/src/features/xml-comparator/application/diff-classifier.ts) avalia a tag e seu caminho posicional estrutural seguindo uma ordem de precedência estrita:
 
 ```text
 1. Tag de Localização Fiscal? (cMun, UF, pais, xLocPrestacao)
@@ -117,7 +117,7 @@ export const DOCUMENT_ID_CONTAINERS = new Set([
 ## 4. Testando as Regras Semânticas do Comparator
 
 Todas as regras do classificador de diff possuem testes dedicados em:
-[`tests/features/xml-comparator/diff-classifier.test.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/tests/features/xml-comparator/diff-classifier.test.ts).
+[`tests/features/xml-comparator/diff-classifier.test.ts`](../labtool/tests/features/xml-comparator/diff-classifier.test.ts).
 
 Exemplo de como adicionar um novo teste:
 

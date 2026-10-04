@@ -28,7 +28,7 @@ Nova Tag XML
 
 ### 2.1. Localização do Arquivo
 O catálogo do XML Privacy fica em:
-[`src/features/xml-privacy/catalog/sensitive-tags.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-privacy/catalog/sensitive-tags.ts).
+[`src/features/xml-privacy/catalog/sensitive-tags.ts`](../labtool/src/features/xml-privacy/catalog/sensitive-tags.ts).
 
 ### 2.2. Regra de Normalização
 Ao buscar no catálogo, a função `normalizeTagName()` converte a tag para minúsculas e remove pontuações, underscores, hífens, dois-pontos e prefixos de atributos (`@`).
@@ -40,7 +40,7 @@ Exemplos de normalização:
 - `@Id` ➔ `id`
 
 ### 2.3. Cadastrando a Tag no Catálogo `SENSITIVE_TAGS`
-Abra [`src/features/xml-privacy/catalog/sensitive-tags.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-privacy/catalog/sensitive-tags.ts) e adicione a nova chave na seção apropriada:
+Abra [`src/features/xml-privacy/catalog/sensitive-tags.ts`](../labtool/src/features/xml-privacy/catalog/sensitive-tags.ts) e adicione a nova chave na seção apropriada:
 
 ```typescript
 // Exemplo: Adicionando uma nova tag de documento de identidade <rgEmitente>
@@ -83,12 +83,12 @@ export function classifyTag(tagName: string): SensitiveTagDefinition {
 
 ### 3.1. Localização dos Arquivos
 1. **Catálogo de Sanitização de Exportação / Relatório Markdown**:
-   [`src/features/xml-comparator/catalog/export-sensitive-fields.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-comparator/catalog/export-sensitive-fields.ts)
+   [`src/features/xml-comparator/catalog/export-sensitive-fields.ts`](../labtool/src/features/xml-comparator/catalog/export-sensitive-fields.ts)
 2. **Classificador Semântico de Divergências**:
-   [`src/features/xml-comparator/application/diff-classifier.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-comparator/application/diff-classifier.ts)
+   [`src/features/xml-comparator/application/diff-classifier.ts`](../labtool/src/features/xml-comparator/application/diff-classifier.ts)
 
 ### 3.2. Cadastrando no Catálogo de Exportação (`export-sensitive-fields.ts`)
-Abra [`src/features/xml-comparator/catalog/export-sensitive-fields.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/src/features/xml-comparator/catalog/export-sensitive-fields.ts) e adicione a tag com a respectiva ação (`MASK_TOKEN`, `PRESERVE`, `SCRUB_TEXT` ou `REMOVE`):
+Abra [`src/features/xml-comparator/catalog/export-sensitive-fields.ts`](../labtool/src/features/xml-comparator/catalog/export-sensitive-fields.ts) e adicione a tag com a respectiva ação (`MASK_TOKEN`, `PRESERVE`, `SCRUB_TEXT` ou `REMOVE`):
 
 ```typescript
 export const EXPORT_SENSITIVE_FIELDS = {
@@ -139,7 +139,7 @@ Se a nova tag puder aparecer em relatórios de comparação de XML, determine em
 ## 4. Testes e Validação
 
 ### 4.1. Escrevendo o Teste Unitário no XML Privacy
-Adicione um teste em [`tests/features/xml-privacy/sensitive-tags.test.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/tests/features/xml-privacy/sensitive-tags.test.ts):
+Adicione um teste em [`tests/features/xml-privacy/sensitive-tags.test.ts`](../labtool/tests/features/xml-privacy/sensitive-tags.test.ts):
 
 ```typescript
 it("deve classificar corretamente a nova tag cadastrada", () => {
@@ -150,7 +150,7 @@ it("deve classificar corretamente a nova tag cadastrada", () => {
 ```
 
 ### 4.2. Escrevendo o Teste Unitário no XML Comparator
-Adicione um teste em [`tests/features/xml-comparator/diff-classifier.test.ts`](file:///home/joaodantas/DeveloperLabTools/WorkTools2/labtool/tests/features/xml-comparator/diff-classifier.test.ts):
+Adicione um teste em [`tests/features/xml-comparator/diff-classifier.test.ts`](../labtool/tests/features/xml-comparator/diff-classifier.test.ts):
 
 ```typescript
 it("deve classificar a nova tag conforme a regra semântica", () => {
