@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e:xml-privacy": "vitest run tests/features/xml-privacy/",
+    "test:e2e:xml-sanitizer": "vitest run tests/features/xml-sanitizer/",
+    "test:e2e:xml-privacy": "vitest run tests/features/xml-sanitizer/",
     "scan:references": "bash ./scripts/scan-project-context.sh",
     "scan:context": "node ./scripts/scan-project-context.mjs",
     "validate": "npm run scan:context -- --strict && npm run typecheck && npm run lint && npm run test && npm run build"

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { inspectXml } from "@/features/xml-privacy/application/xml-inspector";
-import { sanitizeXml } from "@/features/xml-privacy/application/xml-sanitizer";
-import { parseSafeDocument } from "@/features/xml-privacy/application/xml-parser";
+import { inspectXml } from "@/features/xml-sanitizer/application/xml-inspector";
+import { sanitizeXml } from "@/features/xml-sanitizer/application/xml-sanitizer";
+import { parseSafeDocument } from "@/features/xml-sanitizer/application/xml-parser";
 
 describe("XML Privacy — Privacy Invariants & Regression Suite", () => {
   describe("1. Teste de Regressão Obrigatório: Razão Social e PII Municipal/CBS-IBS", () => {

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { XmlPrivacyView } from "@/features/xml-privacy";
+import { XmlSanitizerView } from "@/features/xml-sanitizer";
 
 export const metadata: Metadata = {
-  title: "XML Privacy — LabTools",
+  title: "XML Sanitizer — LabTools",
   description: "Sanitização e privacidade determinística e segura de documentos fiscais XML no navegador.",
 };
 
-export default function XmlPrivacyPage() {
-  return <XmlPrivacyView />;
+export default function XmlSanitizerPage() {
+  return <XmlSanitizerView />;
 }

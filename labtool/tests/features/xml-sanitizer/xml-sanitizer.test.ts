@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { inspectXml } from "@/features/xml-privacy/application/xml-inspector";
-import { sanitizeXml } from "@/features/xml-privacy/application/xml-sanitizer";
+import { inspectXml } from "@/features/xml-sanitizer/application/xml-inspector";
+import { sanitizeXml } from "@/features/xml-sanitizer/application/xml-sanitizer";
 
 describe("XML Privacy — XML Sanitizer", () => {
   it("deve retornar erro em SanitizationResult caso o XML seja inválido ou vazio", () => {

@@ -111,10 +111,10 @@ export default function HomePage() {
                 letterSpacing: "0.5px",
               }}
             >
-              Privacy
+              sanitizer
             </span>
             <Link
-              href="/xml-privacy"
+              href="/xml-sanitizer"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -133,7 +133,7 @@ export default function HomePage() {
             >
               <div style={{ display: "flex", alignItems: "center", gap: "var(--space-sm)" }}>
                 <span style={{ color: "var(--color-blue)", fontSize: "18px" }}>&#9670;</span>
-                <span>Abrir Privacy</span>
+                <span>Abrir sanitizer</span>
               </div>
               <span style={{ color: "var(--color-blue)", fontSize: "18px" }}>&rarr;</span>
             </Link>

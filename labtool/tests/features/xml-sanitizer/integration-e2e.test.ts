@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { inspectXml, sanitizeXml, parseSafeDocument } from "@/features/xml-privacy/application";
+import { inspectXml, sanitizeXml, parseSafeDocument } from "@/features/xml-sanitizer/application";
 
 const E2E_COMPLETE_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
 <nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">

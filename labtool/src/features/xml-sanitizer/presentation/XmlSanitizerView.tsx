@@ -18,7 +18,7 @@ import { XmlCodeViewer } from "./XmlCodeViewer";
  * 2. Workspace: Inspeção detalhada de campos, seleção de políticas de privacidade,
  *    recálculo determinístico em tempo real, visualização e download do XML sanitizado.
  */
-export function XmlPrivacyView() {
+export function XmlSanitizerView() {
   const [rawXml, setRawXml] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>("");
   const [fileSizeBytes, setFileSizeBytes] = useState<number>(0);
@@ -166,7 +166,7 @@ export function XmlPrivacyView() {
                 lineHeight: "var(--line-height-ui-xl)",
               }}
             >
-              XML Privacy
+              XML Sanitizer
             </h1>
             <p
               style={{
@@ -287,3 +287,5 @@ export function XmlPrivacyView() {
     </div>
   );
 }
+
+export const XmlPrivacyView = XmlSanitizerView;

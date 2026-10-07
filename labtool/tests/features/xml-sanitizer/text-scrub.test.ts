@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { scrubText } from "@/features/xml-privacy/application/text-scrub";
-import type { FieldCategory } from "@/features/xml-privacy/domain/sanitization.types";
+import { scrubText } from "@/features/xml-sanitizer/application/text-scrub";
+import type { FieldCategory } from "@/features/xml-sanitizer/domain/sanitization.types";
 
 /**
  * Helper determinístico para testes de scrubText.

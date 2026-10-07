@@ -1,7 +1,7 @@
 # Guia de Engenharia e Funcionamento — XML Privacy
 
-> **Módulo**: `src/features/xml-privacy/`  
-> **Rota Next.js**: `/xml-privacy`  
+> **Módulo**: `src/features/xml-sanitizer/`  
+> **Rota Next.js**: `/xml-sanitizer`  
 > **Papel**: Motor e Interface de Inspeção, Classificação, Privacidade e Sanitização Local de Documentos XML Fiscais.
 
 ---

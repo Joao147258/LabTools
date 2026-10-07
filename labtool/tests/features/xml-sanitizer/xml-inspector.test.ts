@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { inspectXml } from "@/features/xml-privacy/application/xml-inspector";
+import { inspectXml } from "@/features/xml-sanitizer/application/xml-inspector";
 import {
   classifyTag,
   shouldSelectByDefault,
-} from "@/features/xml-privacy/catalog/sensitive-tags";
+} from "@/features/xml-sanitizer/catalog/sensitive-tags";
 
 describe("XML Privacy — XML Inspector", () => {
   describe("Classificação de Tags e Catálogo de Privacidade", () => {

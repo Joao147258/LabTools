@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { XmlPrivacyView } from "@/features/xml-privacy/presentation/XmlPrivacyView";
-import { escapeHtml, highlightSanitizedTokens } from "@/features/xml-privacy/presentation/XmlCodeViewer";
-import { formatBytes } from "@/features/xml-privacy/presentation/XmlUploadDropzone";
-import { MAX_XML_SIZE_BYTES } from "@/features/xml-privacy/application";
+import { XmlPrivacyView } from "@/features/xml-sanitizer/presentation/XmlSanitizerView";
+import { escapeHtml, highlightSanitizedTokens } from "@/features/xml-sanitizer/presentation/XmlCodeViewer";
+import { formatBytes } from "@/features/xml-sanitizer/presentation/XmlUploadDropzone";
+import { MAX_XML_SIZE_BYTES } from "@/features/xml-sanitizer/application";
 
 // Configurar ambiente React 19 act
 // @ts-expect-error global declaration for act
@@ -62,7 +62,7 @@ describe("XML Privacy — Presentation Layer", () => {
         root.render(<XmlPrivacyView />);
       });
 
-      expect(container.textContent).toContain("XML Privacy");
+      expect(container.textContent).toContain("XML Sanitizer");
       expect(container.textContent).toContain("Sanitização e privacidade segura de documentos fiscais XML");
       expect(container.textContent).toContain("Processamento 100% local no navegador");
       expect(container.textContent).toContain("Máximo: 20 MB");
