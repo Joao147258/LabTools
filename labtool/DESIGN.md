@@ -387,10 +387,10 @@ A Home deve seguir rigorosamente a composição:
 
 ---
 
-## 6. XML Privacy
+## 6. XML Sanitizer (Privacy & Sanitization)
 
 ### 6.1 Identidade Funcional
-Ferramenta especializada em inspeção determinística, anonimização e sanitização de documentos fiscais XML (NF-e, NFC-e, NFS-e, CT-e, MDF-e), operando 100% no cliente (browser) via DOMParser e XMLSerializer.
+Ferramenta especializada em inspeção determinística, anonimização e sanitização de documentos fiscais XML (NF-e, NFC-e, NFS-e, CT-e, MDF-e), operando 100% no cliente (browser) via DOMParser e XMLSerializer sob a rota `/xml-sanitizer`.
 
 ### 6.2 Fluxo de Trabalho no Workspace
 ```text
@@ -416,7 +416,7 @@ Download do XML higienizado
 - **Remoção de Assinaturas (`REMOVE_SUBTREE`)**: Subárvores de assinatura digital XMLDSig (`<Signature xmlns="...xmldsig#">`) e nós de comentário sensíveis são purgados integralmente.
 
 ### 6.4 Componentes do Workspace
-- **Header da Ferramenta**: Link discreto `← LabTools` + título `XML Privacy`.
+- **Header da Ferramenta**: Link discreto `← LabTools` + título `XML Sanitizer`.
 - **Upload Dropzone**: Área para seleção de arquivo com validação defensiva de 20MB e bloqueio rigoroso contra XXE (`DOCTYPE`/`ENTITY`).
 - **Tabela Técnica de Inspeção**: Grid com tag, caminho XPath posicional, categoria semântica, valor original, ação atribuída e checkbox de seleção.
 - **Ações em Lote**: Controles para *Selecionar Todos*, *Desmarcar Todos* e *Restaurar Padrões*.
@@ -483,6 +483,48 @@ A geração do relatório Markdown segue política estrita:
 - Inscrições Municipais e dados de endereço/localização **não são mascarados**, preservando seus valores originais para análise técnica.
 - Apenas PIIs sensíveis (como CNPJ, CPF e nomes de clientes) recebem substituição determinística relacional (`[CNPJ_001]`).
 - O relatório inclui cabeçalho com metadados, sumário de métricas, tabela de divergências e seções com os XMLs sanitizados.
+
+### 7.7 Barra de Resumo Sticky e Fundo Acrílico (`ComparatorSummary`)
+O painel de resumo e controle de navegação de divergências opera com fixação nativa e alta densidade técnica:
+- **Comportamento Sticky (Camada 1)**: `position: sticky; top: 0; zIndex: 20;` permanecendo acessível no topo durante a rolagem de XMLs extensos.
+- **Fundo Acrílico / Glassmorphism**: Fundo semitransparente `rgba(24, 24, 37, 0.94)` (derivado de `--color-mantle`), `backdropFilter: blur(12px)`, `border: 1px solid var(--color-surface1)` e sombra suave `0 8px 24px rgba(0, 0, 0, 0.45)` para demarcação nítida sobre as linhas que rolam por baixo.
+- **Prevenção de Sobreposição no Scroll**: As linhas espelhadas (`MirroredXmlRow`) utilizam `scroll-margin-top: calc(var(--comparator-summary-height, 120px) + 50px)`, assegurando margem protetora dinâmica calculada para a barra fixa e cabeçalho, mantendo a linha visível e centralizada.
+- **Estrutura Compacta em 3 Linhas Úteis**:
+  1. **Linha 1 (Métricas + Navegação Rápida)**: Badges quantitativos compactos (`Total`, `+ Aprovado`, `- Rejeitado`, `Valor`, `Atributos`, `Contextuais`) alinhados horizontalmente com o contador posicional `X de Y` e botões compactos `← Anterior` / `Próxima →`.
+  2. **Linha 2 (Filtros de Tags + Autocomplete Acrílico)**: Rótulo `TAGS` inline, campo de busca com autocomplete (`max-width: 500px`), chips de tags ativas com botão `×` e botão `Limpar`. O dropdown de autocomplete utiliza acabamento acrílico (`rgba(24, 24, 37, 0.92)`, blur `12px`, `zIndex: 50`) e flutua ancorado ao input.
+  3. **Linha 3 (Divergências + Carrossel de Cards)**: Rótulo `DIVERGÊNCIAS` inline seguido pelos cards das divergências correspondentes com quebra natural (`flex-wrap: wrap`).
+
+### 7.8 Paginação de Cards em Slides (Limite de 2 Fileiras)
+Para evitar que listas extensas de divergências (30 a 50+ itens) empilhem verticalmente e comprometam o espaço de leitura do XML:
+- **Limite Visual por Slide**: `CARDS_PER_SLIDE = 16` (equivalente ao preenchimento de no máximo duas fileiras em desktop padrão).
+- **Controles Discretos de Slide**: Quando o total de cards ultrapassar 16 (`totalSlides > 1`), são exibidos botões compactos `‹` e `›` com indicador de página `X/Y` imediatamente ao lado do rótulo `Divergências`.
+- **Sincronização Bidirecional**:
+  - A navegação pelas divergências via botões `← Anterior` / `Próxima →` ou clique no XML atualiza automaticamente o slide visível para onde a divergência selecionada reside.
+  - O usuário pode navegar livremente entre os slides através de `‹` e `›` sem perder o estado de foco ou filtros ativos.
+
+### 7.9 Arquitetura Coordenada de Scroll em 3 Camadas (`comparison-workspace`)
+A visualização espelhada e o controle de divergências operam sob um sistema coordenado de scroll para evitar saltos ou descontinuidades visuais:
+- **Container Delimitador (`comparison-workspace`)**:
+  - Agrupa `ComparatorSummary` e `MirroredXmlViewer` em um ancestral comum com `display: flex; flex-direction: column; position: relative`.
+  - Ao rolar a página além da área de comparação, o sticky é naturalmente liberado pelo término do container, permitindo que o painel inferior de detalhes (`ComparatorDiffDetails`) entre no fluxo normal sem o sticky flutuar por cima.
+- **Coordenação em 3 Camadas**:
+  1. **Camada 1 (Métricas / Tags / Divergências)**: `position: sticky; top: 0; zIndex: 20;` em `ComparatorSummary`.
+  2. **Camada 2 (Cabeçalho dos XMLs)**: `position: sticky; top: var(--comparator-summary-height, 0px); zIndex: 15;` em `MirroredXmlViewer` (cabeçalho com títulos *XML Aprovado (Esperado)* e *XML Rejeitado / Modificado*), medido dinamicamente via `ResizeObserver` sem magic numbers.
+  3. **Camada 3 (Linhas dos XMLs)**: Rolam suavemente por baixo das duas camadas anteriores.
+- **Centralização Suave de Divergências**:
+  - `scrollIntoView({ block: "center", behavior: prefersReducedMotion ? "auto" : "smooth" })` com respeito estrito às preferências do usuário contra vertigem e animações indesejadas.
+  - Ausência de `scroll-behavior: smooth` global em `html`/`body` para preservar a precisão de saltos nativos.
+
+### 7.10 Modo Foco / Tela Cheia (`comparison-workspace`)
+Para potencializar o foco na análise técnica de divergências e dar sensação imersiva de tela cheia:
+- **Acionador Dedicado**: Botão `⛶ Tela Cheia` na Linha 1 de métricas em `ComparatorSummary`, com tooltip e atalho intuitivo.
+- **Transição para Modo Foco**:
+  - O container `comparison-workspace` assume `position: fixed; inset: 0; zIndex: 100; height: 100vh; background-color: var(--color-crust);` com padding confortável e rolagem própria.
+  - O visualizador de linhas `MirroredXmlViewer` expande sua altura (`maxHeight: none; flex: 1 1 auto;`) aproveitando integralmente o espaço vertical da tela para maximizar o número de nós XML visíveis simultaneamente.
+  - O painel superior com métricas, filtros de tags e seleção de divergências permanece fixo e imediatamente acessível.
+- **Saída Descomplicada**:
+  - Clique no botão `🗗 Sair da Tela Cheia` (com destaque na cor mauve).
+  - Pressionamento da tecla `Escape` (`Esc`) a qualquer momento, restaurando imediatamente a visualização no fluxo normal da página sem perder o estado de seleção, filtros ou posição do scroll.
 
 ---
 
@@ -592,7 +634,7 @@ Para evitar variações e ambiguidades entre as telas, a nomenclatura do LabTool
 | Entidade / Ferramenta | Nome Canônico do Módulo | Rótulo de Navegação na Home | Rota / Localização | Descrição Funcional |
 |---|---|---|---|---|
 | **Produto** | `LabTools` (ou `LabTool`) | — | `/` | Plataforma técnica modular. |
-| **Ferramenta 1** | `XML Privacy` | `Privacy` / `Abrir Privacy →` | `/xml-privacy` | Inspeção e sanitização determinística de XML. |
+| **Ferramenta 1** | `XML Sanitizer` (antigo XML Privacy) | `Sanitizer` / `Abrir Sanitizer →` | `/xml-sanitizer` | Inspeção, anonimização e sanitização determinística de XML. |
 | **Ferramenta 2** | `XML Comparator` | `Comparer` / `Abrir Comparer →` | `/xml-comparator` | Comparação estrutural e diff lado a lado de XML. |
 | **Ferramenta 3** | `CNPJ Intelligence` | `Consultar CNPJ` / `Consultar` | `/api/cnpj/[cnpj]` + Dialog na Home | Validação e consulta cadastral de CNPJ. |
 

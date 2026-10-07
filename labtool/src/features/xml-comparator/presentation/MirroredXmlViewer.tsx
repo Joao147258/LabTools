@@ -18,6 +18,7 @@ export interface MirroredXmlViewerProps {
   approvedElementCount?: number;
   rejectedElementCount?: number;
   emptyMessage?: string;
+  isFullscreen?: boolean;
 }
 
 /**
@@ -41,6 +42,7 @@ export function MirroredXmlViewer({
   approvedElementCount,
   rejectedElementCount,
   emptyMessage = "Carregue os arquivos XML para visualizar a comparação espelhada.",
+  isFullscreen = false,
 }: MirroredXmlViewerProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const rowRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -69,7 +71,13 @@ export function MirroredXmlViewer({
       const rowEl = rowRefs.current.get(targetRowId);
       if (rowEl && scrollContainerRef.current && typeof rowEl.scrollIntoView === "function") {
         try {
-          rowEl.scrollIntoView({ block: "center", behavior: "smooth" });
+          const prefersReducedMotion =
+            typeof window !== "undefined" &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          rowEl.scrollIntoView({
+            block: "center",
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+          });
         } catch {
           // Fallback para ambientes sem suporte a smooth scroll (ex: jsdom)
           rowEl.scrollIntoView();
@@ -88,16 +96,23 @@ export function MirroredXmlViewer({
         backgroundColor: "var(--color-base)",
         border: "1px solid var(--color-surface1)",
         borderRadius: "var(--radius-md)",
-        overflow: "hidden",
+        flex: isFullscreen ? "1 1 auto" : undefined,
+        minHeight: isFullscreen ? 0 : undefined,
       }}
     >
-      {/* Cabeçalho Dividido: Aprovado à Esquerda | Rejeitado à Direita */}
+      {/* Cabeçalho Dividido: Aprovado à Esquerda | Rejeitado à Direita (Sticky nível 2) */}
       <div
+        data-testid="comparator-panels-header"
         style={{
+          position: "sticky",
+          top: "var(--comparator-summary-height, 0px)",
+          zIndex: 15,
           display: "grid",
           gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
           backgroundColor: "var(--color-mantle)",
           borderBottom: "1px solid var(--color-surface0)",
+          borderTopLeftRadius: "var(--radius-md)",
+          borderTopRightRadius: "var(--radius-md)",
         }}
       >
         {/* Cabeçalho Aprovado */}
@@ -266,8 +281,9 @@ export function MirroredXmlViewer({
           flex: "1 1 auto",
           overflowY: "auto",
           overflowX: "hidden",
-          maxHeight: "560px",
-          minHeight: "280px",
+          maxHeight: isFullscreen ? "none" : "560px",
+          minHeight: isFullscreen ? "300px" : "280px",
+          height: isFullscreen ? "100%" : undefined,
           backgroundColor: "var(--color-crust)",
           fontFamily: "var(--font-family-code)",
           fontSize: "var(--font-size-code-sm)",

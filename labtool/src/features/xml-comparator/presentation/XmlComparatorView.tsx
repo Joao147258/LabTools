@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type {
   FormattedLine,
@@ -50,6 +50,57 @@ export function XmlComparatorView() {
   // Seleção de divergência e de linha espelhada
   const [selectedDiffId, setSelectedDiffId] = useState<string | null>(null);
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
+
+  // Referências para o container de comparação e medição de altura do resumo sticky
+  const workspaceRef = useRef<HTMLDivElement>(null);
+  const summaryRef = useRef<HTMLElement>(null);
+
+  // Sincroniza dinamicamente a variável CSS --comparator-summary-height com a altura real do ComparatorSummary
+  useEffect(() => {
+    const summaryEl = summaryRef.current;
+    const workspaceEl = workspaceRef.current;
+    if (!summaryEl || !workspaceEl) return;
+
+    const updateHeight = () => {
+      const height = summaryEl.getBoundingClientRect().height;
+      workspaceEl.style.setProperty("--comparator-summary-height", `${height}px`);
+    };
+
+    updateHeight();
+
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(() => {
+        updateHeight();
+      });
+      observer.observe(summaryEl);
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, [comparisonResult]);
+
+  // Estado de tela cheia (modo foco na análise)
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  const handleToggleFullscreen = useCallback(() => {
+    setIsFullscreen((prev) => !prev);
+  }, []);
+
+  // Tecla Escape para sair da tela cheia com conveniência e acessibilidade
+  useEffect(() => {
+    if (!isFullscreen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsFullscreen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isFullscreen]);
 
   // Estados de processamento e feedback visual
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -611,32 +662,56 @@ export function XmlComparatorView() {
         isProcessing={isProcessing}
       />
 
-      {/* Seção 2: Resumo e Métricas (se houver comparação) */}
-      {comparisonResult && (
-        <ComparatorSummary
-          summary={comparisonResult.summary}
-          diffs={comparisonResult.diffs}
-          selectedDiffId={selectedDiffId}
-          onSelectDiff={handleSelectDiffById}
-          onNavigate={handleNavigateDiff}
-        />
-      )}
+      {/* Workspace de Comparação: agrupa o resumo sticky (nível 1) e o visualizador com cabeçalho sticky (nível 2) */}
+      {(comparisonResult || approvedFile || rejectedFile) && (
+        <div
+          ref={workspaceRef}
+          data-testid="comparison-workspace"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-xs)",
+            position: isFullscreen ? "fixed" : "relative",
+            inset: isFullscreen ? 0 : undefined,
+            zIndex: isFullscreen ? 100 : undefined,
+            backgroundColor: isFullscreen ? "var(--color-crust)" : undefined,
+            padding: isFullscreen ? "var(--space-sm) var(--space-md)" : undefined,
+            overflowY: isFullscreen ? "auto" : undefined,
+            height: isFullscreen ? "100vh" : undefined,
+          }}
+        >
+          {/* Seção 2: Resumo e Métricas (se houver comparação) */}
+          {comparisonResult && (
+            <ComparatorSummary
+              ref={summaryRef}
+              summary={comparisonResult.summary}
+              diffs={comparisonResult.diffs}
+              selectedDiffId={selectedDiffId}
+              onSelectDiff={handleSelectDiffById}
+              onNavigate={handleNavigateDiff}
+              isFullscreen={isFullscreen}
+              onToggleFullscreen={handleToggleFullscreen}
+            />
+          )}
 
-      {/* Seção 3: Visualizador de XML Espelhado Side-by-Side com Linhas Alinhadas */}
-      {(approvedFile || rejectedFile) && (
-        <MirroredXmlViewer
-          rows={mirroredRows}
-          selectedRowId={selectedRowId}
-          selectedDiffId={selectedDiffId}
-          onSelectRow={handleSelectRow}
-          approvedFile={approvedFile}
-          rejectedFile={rejectedFile}
-          approvedLinesCount={approvedLines.length}
-          rejectedLinesCount={rejectedLines.length}
-          approvedElementCount={approvedElementCount}
-          rejectedElementCount={rejectedElementCount}
-          emptyMessage="Carregue os arquivos XML para visualizar a comparação espelhada."
-        />
+          {/* Seção 3: Visualizador de XML Espelhado Side-by-Side com Linhas Alinhadas */}
+          {(approvedFile || rejectedFile) && (
+            <MirroredXmlViewer
+              rows={mirroredRows}
+              selectedRowId={selectedRowId}
+              selectedDiffId={selectedDiffId}
+              onSelectRow={handleSelectRow}
+              approvedFile={approvedFile}
+              rejectedFile={rejectedFile}
+              approvedLinesCount={approvedLines.length}
+              rejectedLinesCount={rejectedLines.length}
+              approvedElementCount={approvedElementCount}
+              rejectedElementCount={rejectedElementCount}
+              emptyMessage="Carregue os arquivos XML para visualizar a comparação espelhada."
+              isFullscreen={isFullscreen}
+            />
+          )}
+        </div>
       )}
 
       {/* Seção 4: Detalhes da Divergência Selecionada (se houver comparação e divergências) */}

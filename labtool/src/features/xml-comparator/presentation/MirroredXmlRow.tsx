@@ -189,7 +189,7 @@ export function MirroredXmlRow({
         outline: isSelected ? "1px solid var(--color-mauve)" : "none",
         cursor: hasDiff ? "pointer" : "default",
         transition: "background-color 0.1s ease",
-        scrollMarginTop: "140px",
+        scrollMarginTop: "calc(var(--comparator-summary-height, 120px) + 50px)",
       }}
     >
       {/* Célula Esquerda: XML Aprovado */}

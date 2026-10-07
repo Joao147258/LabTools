@@ -222,19 +222,41 @@ describe("XML Comparator — Presentation Layer", () => {
       await uploadFile("approved-file-input", SAMPLE_APPROVED_XML, "aprovado.xml");
       await uploadFile("rejected-file-input", SAMPLE_REJECTED_XML, "rejeitado.xml");
 
-      // Deve renderizar os painéis XML com contagens de elementos e linhas
+      // Deve renderizar os painéis XML com contagens de elementos e linhas dentro do comparison-workspace
+      expect(container.querySelector('[data-testid="comparison-workspace"]')).not.toBeNull();
       expect(container.querySelector('[data-testid="comparator-panels-container"]')).not.toBeNull();
+      expect(container.querySelector('[data-testid="comparator-panels-header"]')).not.toBeNull();
       expect(container.querySelector('[data-testid="comparator-approved-panel"]')).not.toBeNull();
       expect(container.querySelector('[data-testid="comparator-rejected-panel"]')).not.toBeNull();
 
       expect(container.querySelector('[data-testid="approved-element-count"]')?.textContent).toContain("18 elementos");
       expect(container.querySelector('[data-testid="rejected-element-count"]')?.textContent).toContain("20 elementos");
 
-      // Deve renderizar o resumo de métricas
+      // Deve renderizar o resumo de métricas sticky (nível 1)
       expect(container.querySelector('[data-testid="comparator-summary"]')).not.toBeNull();
       expect(container.textContent).toContain("Total:");
 
-      // Deve renderizar detalhes da primeira divergência selecionada
+      // Deve renderizar o botão de tela cheia / foco na análise
+      const fullscreenBtn = container.querySelector('[data-testid="toggle-fullscreen-button"]') as HTMLButtonElement;
+      expect(fullscreenBtn).not.toBeNull();
+      expect(fullscreenBtn.textContent).toContain("Tela Cheia");
+
+      // Deve entrar em modo tela cheia ao clicar no botão
+      await act(async () => {
+        fullscreenBtn.click();
+      });
+      const workspace = container.querySelector('[data-testid="comparison-workspace"]') as HTMLDivElement;
+      expect(workspace.style.position).toBe("fixed");
+      expect(fullscreenBtn.textContent).toContain("Sair da Tela Cheia");
+
+      // Deve sair da tela cheia ao pressionar Escape
+      await act(async () => {
+        window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+      });
+      expect(workspace.style.position).toBe("relative");
+      expect(fullscreenBtn.textContent).toContain("Tela Cheia");
+
+      // Deve renderizar detalhes da primeira divergência selecionada no fluxo normal
       expect(container.querySelector('[data-testid="comparator-diff-details"]')).not.toBeNull();
     });
 

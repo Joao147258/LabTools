@@ -9,6 +9,8 @@ export interface ComparatorSummaryProps {
   selectedDiffId: string | null;
   onSelectDiff: (diffId: string) => void;
   onNavigate?: (direction: "prev" | "next") => void;
+  isFullscreen?: boolean;
+  onToggleFullscreen?: () => void;
 }
 
 /**
@@ -43,13 +45,19 @@ function getDiffKindColor(kind: string): string {
 /**
  * Componente de visualização do resumo quantitativo e métricas da comparação estrutural.
  */
-export function ComparatorSummary({
-  summary,
-  diffs,
-  selectedDiffId,
-  onSelectDiff,
-  onNavigate,
-}: ComparatorSummaryProps) {
+export const ComparatorSummary = React.forwardRef<HTMLElement, ComparatorSummaryProps>(
+  function ComparatorSummary(
+    {
+      summary,
+      diffs,
+      selectedDiffId,
+      onSelectDiff,
+      onNavigate,
+      isFullscreen,
+      onToggleFullscreen,
+    },
+    ref
+  ) {
   const currentIndex = selectedDiffId
     ? diffs.findIndex((d) => d.id === selectedDiffId)
     : -1;
@@ -208,6 +216,7 @@ export function ComparatorSummary({
   if (summary.identical) {
     return (
       <section
+        ref={ref}
         data-testid="comparator-summary-identical"
         style={{
           display: "flex",
@@ -258,6 +267,7 @@ export function ComparatorSummary({
 
   return (
     <section
+      ref={ref}
       data-testid="comparator-summary"
       style={{
         position: "sticky",
@@ -506,6 +516,36 @@ export function ComparatorSummary({
               Próxima &rarr;
             </button>
           </div>
+        )}
+
+        {/* Botão de Modo Foco / Tela Cheia */}
+        {onToggleFullscreen && (
+          <button
+            type="button"
+            data-testid="toggle-fullscreen-button"
+            onClick={onToggleFullscreen}
+            aria-label={isFullscreen ? "Sair do modo tela cheia" : "Expandir em tela cheia"}
+            title={isFullscreen ? "Sair do modo tela cheia (Esc)" : "Expandir para foco em tela cheia"}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "4px",
+              padding: "2px 8px",
+              fontSize: "var(--font-size-ui-xs)",
+              fontWeight: 600,
+              backgroundColor: isFullscreen ? "rgba(203, 166, 247, 0.15)" : "var(--color-surface0)",
+              border: isFullscreen ? "1px solid var(--color-mauve)" : "1px solid var(--color-surface1)",
+              borderRadius: "var(--radius-xs)",
+              color: isFullscreen ? "var(--color-mauve)" : "var(--color-text)",
+              cursor: "pointer",
+              transition: "all 0.15s ease",
+            }}
+          >
+            <span style={{ fontSize: "12px", lineHeight: 1 }}>
+              {isFullscreen ? "🗗" : "⛶"}
+            </span>
+            <span>{isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}</span>
+          </button>
         )}
       </div>
 
@@ -929,6 +969,8 @@ export function ComparatorSummary({
           </div>
         )}
       </section>
-  );
-}
+    );
+  }
+);
+ComparatorSummary.displayName = "ComparatorSummary";
 
