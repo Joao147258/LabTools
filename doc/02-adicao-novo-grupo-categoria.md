@@ -15,8 +15,8 @@ Uma categoria semântica representa a natureza conceitual de uma informação de
 
 ## 2. Passo a Passo Completo
 
-### Passo 1: Atualizar o Tipo de Domínio no XML Privacy
-No arquivo [`src/features/xml-privacy/domain/sanitization.types.ts`](../labtool/src/features/xml-privacy/domain/sanitization.types.ts), adicione a nova categoria ao tipo union `FieldCategory`:
+### Passo 1: Atualizar o Tipo de Domínio no XML Sanitizer
+No arquivo [`src/features/xml-sanitizer/domain/sanitization.types.ts`](../labtool/src/features/xml-sanitizer/domain/sanitization.types.ts), adicione a nova categoria ao tipo union `FieldCategory`:
 
 ```typescript
 export type FieldCategory =
@@ -60,8 +60,8 @@ export type ComparisonFieldCategory =
 
 ---
 
-### Passo 3: Cadastrar Tags no Catálogo do XML Privacy
-No arquivo [`src/features/xml-privacy/catalog/sensitive-tags.ts`](../labtool/src/features/xml-privacy/catalog/sensitive-tags.ts):
+### Passo 3: Cadastrar Tags no Catálogo do XML Sanitizer
+No arquivo [`src/features/xml-sanitizer/catalog/sensitive-tags.ts`](../labtool/src/features/xml-sanitizer/catalog/sensitive-tags.ts):
 
 1. Associe as tags desejadas à nova categoria:
    ```typescript
@@ -129,7 +129,7 @@ No arquivo [`src/features/xml-comparator/catalog/export-sensitive-fields.ts`](..
 ---
 
 ### Passo 5: Adicionar o Estilo Visual do Badge na Apresentação
-No arquivo [`src/features/xml-privacy/presentation/XmlFieldsTable.tsx`](../labtool/src/features/xml-privacy/presentation/XmlFieldsTable.tsx), adicione o estilo do badge para a nova categoria na função `getCategoryBadgeStyle()`:
+No arquivo [`src/features/xml-sanitizer/presentation/XmlFieldsTable.tsx`](../labtool/src/features/xml-sanitizer/presentation/XmlFieldsTable.tsx), adicione o estilo do badge para a nova categoria na função `getCategoryBadgeStyle()`:
 
 ```typescript
 function getCategoryBadgeStyle(category: FieldCategory): { bg: string; color: string; border: string } {

@@ -1,5 +1,5 @@
 /**
- * XML Privacy — Sensitive Tags Catalog
+ * XML Sanitizer — Sensitive Tags Catalog
  *
  * Responsabilidade:
  * Mapear nomes de campos/tags XML para suas respectivas categorias sensíveis
@@ -17,7 +17,7 @@
  * - Não determina de forma isolada se um campo em tempo de execução deve ser sanitizado;
  *   o Inspector e a decisão do usuário definirão o escopo final.
  *
- * Pertence exclusivamente à feature: src/features/xml-privacy/
+ * Pertence exclusivamente à feature: src/features/xml-sanitizer/
  */
 
 import type {
@@ -47,7 +47,7 @@ export function normalizeTagName(name: string): string {
 }
 
 /**
- * Catálogo declarativo principal de tags sensíveis para o XML Privacy.
+ * Catálogo declarativo principal de tags sensíveis para o XML Sanitizer.
  */
 export const SENSITIVE_TAGS = {
   // ==========================================================================
@@ -396,7 +396,7 @@ export function getSuggestedAction(tagName: string): SanitizationAction {
 }
 
 /**
- * Categorias sensíveis que devem vir selecionadas por padrão para tratamento no XML Privacy.
+ * Categorias sensíveis que devem vir selecionadas por padrão para tratamento no XML Sanitizer.
  * INSCRICAO e ENDERECO permanecem com ação PRESERVE e não selecionadas por padrão.
  */
 export const DEFAULT_SELECTED_CATEGORIES: readonly FieldCategory[] = [

@@ -1,5 +1,5 @@
 /**
- * XML Privacy Feature Module
+ * XML Sanitizer Feature Module
  */
 
 export * from "./domain";

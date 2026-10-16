@@ -1,5 +1,5 @@
 /**
- * XML Privacy — Text Scrubbing
+ * XML Sanitizer — Text Scrubbing
  *
  * Responsabilidade:
  * Detectar padrões sensíveis conhecidos (e-mail, CNPJ, CPF, telefones)
@@ -12,7 +12,7 @@
  * - Não realiza chamadas de I/O ou rede;
  * - Não altera tipos fora de strings puras.
  *
- * Pertence exclusivamente à feature: src/features/xml-privacy/
+ * Pertence exclusivamente à feature: src/features/xml-sanitizer/
  */
 
 import type { FieldCategory } from "../domain/sanitization.types";

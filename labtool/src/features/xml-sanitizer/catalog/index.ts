@@ -1,5 +1,5 @@
 /**
- * XML Privacy — Catalog Layer
+ * XML Sanitizer — Catalog Layer
  */
 
 export * from "./sensitive-tags";

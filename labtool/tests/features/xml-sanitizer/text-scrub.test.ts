@@ -25,7 +25,7 @@ function createMockReplacer() {
   };
 }
 
-describe("XML Privacy — Text Scrub", () => {
+describe("XML Sanitizer — Text Scrub", () => {
   it("deve retornar string vazia quando entrada for vazia ou nula", () => {
     const replace = createMockReplacer();
     expect(scrubText("", replace)).toBe("");

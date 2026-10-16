@@ -249,7 +249,7 @@ Código, XML e Dados Técnicos:
 O LabTool é organizado em duas experiências de layout distintas e objetivas:
 
 1. **Home (Launcher)**: Um shell centralizado e compacto, concebido exclusivamente como **menu inicial / lançador de ferramentas**. Não possui sidebar, navbar pesada ou dashboards.
-2. **Workspaces das Ferramentas (`/xml-privacy`, `/xml-comparator`)**: Áreas de trabalho completas e dedicadas para manipulação e visualização técnica, dotadas de um link de retorno discreto (`← LabTools`) no cabeçalho superior esquerdo.
+2. **Workspaces das Ferramentas (`/xml-sanitizer`, `/xml-comparator`)**: Áreas de trabalho completas e dedicadas para manipulação e visualização técnica, dotadas de um link de retorno discreto (`← LabTools`) no cabeçalho superior esquerdo.
 
 ### 4.2 Breakpoints Canônicos
 
@@ -261,7 +261,7 @@ O LabTool é organizado em duas experiências de layout distintas e objetivas:
 | **Desktop Wide** | `≥ 1440px` | Monitores amplos | Workspaces expandidos com largura total para inspeção de arquivos XML densos. |
 
 ### 4.3 Navegação de Retorno Discreta
-Nos workspaces internos (`/xml-privacy` e `/xml-comparator`), a navegação de retorno à Home é realizada através de um elemento discreto:
+Nos workspaces internos (`/xml-sanitizer` e `/xml-comparator`), a navegação de retorno à Home é realizada através de um elemento discreto:
 
 ```text
 ← LabTools
@@ -295,7 +295,7 @@ Ao acessar a aplicação, o usuário deve compreender em poucos segundos:
 ```text
 LabTools
    │
-   ├── [ Privacy ]  ─────────────→  /xml-privacy (Workspace de Sanitização)
+   ├── [ Privacy ]  ─────────────→  /xml-sanitizer (Workspace de Sanitização)
    │
    ├── [ Comparer ]  ────────────→  /xml-comparator (Workspace de Comparação)
    │
@@ -345,7 +345,7 @@ A Home deve seguir rigorosamente a composição:
 ### 5.5 Especificação das Três Entradas Funcionais
 
 #### 1. Privacy (Ação de Navegação)
-- **Destino**: `/xml-privacy`
+- **Destino**: `/xml-sanitizer`
 - **Componente**: `ToolAction`
 - **Texto Principal**: `Abrir Privacy` (ou `Privacy`) com seta indicativa à direita (`→`).
 - **Comportamento**: Ação direta de navegação para a rota do workspace de privacidade.
@@ -634,7 +634,7 @@ Para evitar variações e ambiguidades entre as telas, a nomenclatura do LabTool
 | Entidade / Ferramenta | Nome Canônico do Módulo | Rótulo de Navegação na Home | Rota / Localização | Descrição Funcional |
 |---|---|---|---|---|
 | **Produto** | `LabTools` (ou `LabTool`) | — | `/` | Plataforma técnica modular. |
-| **Ferramenta 1** | `XML Sanitizer` (antigo XML Privacy) | `Sanitizer` / `Abrir Sanitizer →` | `/xml-sanitizer` | Inspeção, anonimização e sanitização determinística de XML. |
+| **Ferramenta 1** | `XML Sanitizer` (antigo XML Sanitizer) | `Sanitizer` / `Abrir Sanitizer →` | `/xml-sanitizer` | Inspeção, anonimização e sanitização determinística de XML. |
 | **Ferramenta 2** | `XML Comparator` | `Comparer` / `Abrir Comparer →` | `/xml-comparator` | Comparação estrutural e diff lado a lado de XML. |
 | **Ferramenta 3** | `CNPJ Intelligence` | `Consultar CNPJ` / `Consultar` | `/api/cnpj/[cnpj]` + Dialog na Home | Validação e consulta cadastral de CNPJ. |
 
@@ -643,7 +643,7 @@ Para evitar variações e ambiguidades entre as telas, a nomenclatura do LabTool
 
 ### 11.2 Decisões de Design Consolidadas
 1. **Home como Launcher Puro**: A página inicial é exclusivamente um menu compacto com três ações diretas, sem cards de marketplace, dashboards ou métricas.
-2. **Workspaces Próprios**: XML Privacy e XML Comparator possuem rotas e telas dedicadas de alta densidade técnica com navegação de retorno discreta (`← LabTools`).
+2. **Workspaces Próprios**: XML Sanitizer e XML Comparator possuem rotas e telas dedicadas de alta densidade técnica com navegação de retorno discreta (`← LabTools`).
 3. **Consulta CNPJ Direta**: O CNPJ é a única ferramenta com formulário ativo na Home para evitar navegação intermediária desnecessária.
 4. **Paleta Catppuccin Mocha**: Uso rigoroso dos tokens oficiais de cores e acento Blue (`#89b4fa`).
 5. **Tipografia Geist + JetBrains Mono**: Geist para toda a UI e JetBrains Mono para código XML, diffs, dados fiscais e números estruturados.

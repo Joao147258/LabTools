@@ -63,7 +63,7 @@ Skills iniciais:
 
 ```text
 architecture
-xml-privacy
+xml-sanitizer
 xml-comparator
 cnpj-intelligence
 testing
@@ -168,7 +168,7 @@ Features iniciais:
 
 ```text
 src/features/
-├── xml-privacy/
+├── xml-sanitizer/
 ├── xml-comparator/
 └── cnpj-intelligence/
 ```
@@ -176,9 +176,9 @@ src/features/
 Cada ferramenta possui seu próprio motor.
 
 ```text
-XML Privacy
+XML Sanitizer
     ↓
-Privacy Engine
+Sanitizer Engine
 
 
 XML Comparator
@@ -247,7 +247,7 @@ Implementar somente a etapa solicitada.
 Se a tarefa atual for, por exemplo:
 
 ```text
-XML Privacy — Domain
+XML Sanitizer — Domain
 ```
 
 o agente não deve automaticamente criar:
@@ -294,17 +294,17 @@ Também deve ser usada como apoio na criação inicial de uma nova parte estrutu
 
 ---
 
-### 10.2 XML Privacy
+### 10.2 XML Sanitizer
 
 Carregar:
 
 ```text
-./.agents/skills/xml-privacy/SKILL.md
+./.agents/skills/xml-sanitizer/SKILL.md
 ```
 
 quando a tarefa envolver:
 
-- parsing do XML Privacy;
+- parsing do XML Sanitizer;
 - classificação;
 - catálogo de tags;
 - inspeção;
@@ -434,7 +434,7 @@ A seleção da skill **não deve depender apenas de palavras-chave literais** (c
 → scripts-automation + testing
 
 "automatize a geração de fixtures fiscais"
-→ scripts-automation + xml-privacy + testing
+→ scripts-automation + xml-sanitizer + testing
 
 "crie um fluxo de validação ponta a ponta do comparador"
 → scripts-automation + xml-comparator + testing
@@ -451,8 +451,8 @@ A seleção da skill **não deve depender apenas de palavras-chave literais** (c
 script de testes
 → scripts-automation + testing
 
-script E2E XML Privacy
-→ scripts-automation + testing + xml-privacy
+script E2E XML Sanitizer
+→ scripts-automation + testing + xml-sanitizer
 
 script E2E Comparator
 → scripts-automation + testing + xml-comparator
@@ -479,9 +479,9 @@ Usar como referência:
 | Tarefa | Skills |
 |---|---|
 | Estrutura de feature | `architecture` |
-| Tipos do XML Privacy | `architecture` + `xml-privacy` |
-| Sanitização XML Privacy | `xml-privacy` + `testing` |
-| UI XML Privacy | `xml-privacy` + `testing` |
+| Tipos do XML Sanitizer | `architecture` + `xml-sanitizer` |
+| Sanitização XML Sanitizer | `xml-sanitizer` + `testing` |
+| UI XML Sanitizer | `xml-sanitizer` + `testing` |
 | Tipos do Comparator | `architecture` + `xml-comparator` |
 | Algoritmo de diff | `xml-comparator` + `testing` |
 | Export sanitizer | `xml-comparator` + `testing` |
@@ -490,10 +490,10 @@ Usar como referência:
 | Refatoração entre camadas | `architecture` + skill da feature + `testing` |
 | Extração para shared | `architecture` + skills das features envolvidas + `testing` |
 | Runner de testes / quality gate | `scripts-automation` + `testing` |
-| Script E2E XML Privacy | `scripts-automation` + `xml-privacy` + `testing` |
+| Script E2E XML Sanitizer | `scripts-automation` + `xml-sanitizer` + `testing` |
 | Script E2E XML Comparator | `scripts-automation` + `xml-comparator` + `testing` |
 | Automação / Script CNPJ | `scripts-automation` + `cnpj-intelligence` |
-| Geração de fixtures XML | `scripts-automation` + `xml-privacy` + `testing` |
+| Geração de fixtures XML | `scripts-automation` + `xml-sanitizer` + `testing` |
 | Nova estrutura de scripts / CI | `architecture` + `scripts-automation` |
 | Validação geral consolidada | `scripts-automation` + `testing` |
 
@@ -596,7 +596,7 @@ Considerar conforme o caso:
 
 ### 15.1 Base Canônica para Formulação de XMLs de Teste
 
-Sempre que for formular, criar ou atualizar testes, fixtures, mocks ou exemplos envolvendo XMLs (seja para XML Privacy ou XML Comparator), deve-se obrigatoriamente utilizar os modelos contidos no diretório `./XML_Models/` como base de referência estrutural, semântica e de dados fiscais reais.
+Sempre que for formular, criar ou atualizar testes, fixtures, mocks ou exemplos envolvendo XMLs (seja para XML Sanitizer ou XML Comparator), deve-se obrigatoriamente utilizar os modelos contidos no diretório `./XML_Models/` como base de referência estrutural, semântica e de dados fiscais reais.
 
 Uma refatoração deve preservar testes existentes relevantes.
 
@@ -645,9 +645,9 @@ Não introduzir envio automático para serviços externos.
 
 ---
 
-## 18. Regra específica do XML Privacy
+## 18. Regra específica do XML Sanitizer
 
-O XML Privacy é responsável por:
+O XML Sanitizer é responsável por:
 
 ```text
 XML
@@ -667,7 +667,7 @@ serialização
 
 O motor deve permanecer independente do XML Comparator.
 
-Conhecimento específico deve permanecer na skill `xml-privacy`.
+Conhecimento específico deve permanecer na skill `xml-sanitizer`.
 
 ---
 
@@ -689,7 +689,7 @@ XML B ─┘
 
 O Comparator possui sanitização própria para exportação.
 
-Não reutilizar automaticamente o motor de sanitização do XML Privacy.
+Não reutilizar automaticamente o motor de sanitização do XML Sanitizer.
 
 O Comparator descreve diferenças.
 

@@ -27,7 +27,7 @@ Os testes ficam localizados em `labtool/tests/features/`, espelhando a arquitetu
 
 ```text
 labtool/tests/features/
-├── xml-privacy/
+├── xml-sanitizer/
 │   ├── sensitive-tags.test.ts       → Testes do catálogo declarativo e heurísticas
 │   ├── xml-parser.test.ts           → Testes de segurança XXE e parsing defensivo
 │   ├── xml-inspector.test.ts        → Testes de percurso recursivo e detecção de campos

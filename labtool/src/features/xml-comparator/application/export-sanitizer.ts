@@ -18,7 +18,7 @@
  *
  * O que NÃO faz:
  * - Não altera os documentos originais em memória ou na visualização da tela;
- * - Não depende da engine do XML Privacy (módulo totalmente independente).
+ * - Não depende da engine do XML Sanitizer (módulo totalmente independente).
  */
 
 import type {

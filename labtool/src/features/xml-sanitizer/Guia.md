@@ -1,4 +1,4 @@
-# Guia de Engenharia e Funcionamento — XML Privacy
+# Guia de Engenharia e Funcionamento — XML Sanitizer
 
 > **Módulo**: `src/features/xml-sanitizer/`  
 > **Rota Next.js**: `/xml-sanitizer`  
@@ -8,7 +8,7 @@
 
 ## 1. Visão Geral e Propósito
 
-O **XML Privacy** é a funcionalidade do LabTool projetada para higienizar, mascarar e remover informações de identificação pessoal (PII) e dados fiscais sensíveis contidos em documentos XML (como NF-e, CT-e, NFS-e, MDF-e, eventos e cadastros fiscais).
+O **XML Sanitizer** é a funcionalidade do LabTool projetada para higienizar, mascarar e remover informações de identificação pessoal (PII) e dados fiscais sensíveis contidos em documentos XML (como NF-e, CT-e, NFS-e, MDF-e, eventos e cadastros fiscais).
 
 ### Por Que Foi Criado?
 
@@ -20,7 +20,7 @@ O **XML Privacy** é a funcionalidade do LabTool projetada para higienizar, masc
 
 ## 2. A Filosofia Central de Engenharia
 
-O motor do XML Privacy opera estritamente sob o seguinte princípio arquitetural:
+O motor do XML Sanitizer opera estritamente sob o seguinte princípio arquitetural:
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -48,7 +48,7 @@ O motor do XML Privacy opera estritamente sob o seguinte princípio arquitetural
 O módulo é organizado em quatro camadas bem delimitadas:
 
 ```text
-src/features/xml-privacy/
+src/features/xml-sanitizer/
 ├── domain/                    → Contratos puros, tipos, interfaces e invariantes
 │   ├── index.ts
 │   └── sanitization.types.ts
@@ -91,7 +91,7 @@ src/features/xml-privacy/
 
 ## 5. Ciclo de Vida do Processamento (Passo a Passo)
 
-O fluxo completo de execução do XML Privacy é estruturado em **7 fases sequenciais e determinísticas**:
+O fluxo completo de execução do XML Sanitizer é estruturado em **7 fases sequenciais e determinísticas**:
 
 ```text
 [Arquivo .xml local]
@@ -366,18 +366,18 @@ export interface XmlField {
 
 ## 10. Como Testar e Validar o Módulo
 
-O XML Privacy conta com cobertura integral de testes unitários e de integração através do **Vitest**:
+O XML Sanitizer conta com cobertura integral de testes unitários e de integração através do **Vitest**:
 
 ```bash
-# Executar todos os testes do módulo XML Privacy
-npm test tests/features/xml-privacy
+# Executar todos os testes do módulo XML Sanitizer
+npm test tests/features/xml-sanitizer
 ```
 
 ### Suíte de Testes:
 
-- `tests/features/xml-privacy/privacy-invariants.test.ts`: **Invariantes Fundamentais de Privacidade** — Garante que razões sociais fiscais (`razao_social_destinatario`, `razao_social_destinatario_cbsibs`, `nome_empresarial`, etc.) e dados PII nunca vazem sem anonimização, validando também que flags de pessoa jurídica (`<pessoa_destinatario>J</pessoa_destinatario>`) não gerem falsos positivos.
-- `tests/features/xml-privacy/xml-inspector.test.ts`: Valida parsing seguro, percurso DOM, detecção de atributos, comentários e priorização.
-- `tests/features/xml-privacy/xml-sanitizer.test.ts`: Valida geração de tokens, mutações `REPLACE`, `SCRUB_TEXT`, `REMOVE_SUBTREE` e cálculo de métricas.
-- `tests/features/xml-privacy/text-scrub.test.ts`: Valida regex de CPFs, CNPJs, e-mails e telefones em textos livres.
-- `tests/features/xml-privacy/presentation.test.tsx`: Valida upload, transição de estado da UI, toggles e reatividade.
-- `tests/features/xml-privacy/integration-e2e.test.ts`: Valida o pipeline completo de ponta a ponta com fixtures fiscais reais.
+- `tests/features/xml-sanitizer/privacy-invariants.test.ts`: **Invariantes Fundamentais de Privacidade** — Garante que razões sociais fiscais (`razao_social_destinatario`, `razao_social_destinatario_cbsibs`, `nome_empresarial`, etc.) e dados PII nunca vazem sem anonimização, validando também que flags de pessoa jurídica (`<pessoa_destinatario>J</pessoa_destinatario>`) não gerem falsos positivos.
+- `tests/features/xml-sanitizer/xml-inspector.test.ts`: Valida parsing seguro, percurso DOM, detecção de atributos, comentários e priorização.
+- `tests/features/xml-sanitizer/xml-sanitizer.test.ts`: Valida geração de tokens, mutações `REPLACE`, `SCRUB_TEXT`, `REMOVE_SUBTREE` e cálculo de métricas.
+- `tests/features/xml-sanitizer/text-scrub.test.ts`: Valida regex de CPFs, CNPJs, e-mails e telefones em textos livres.
+- `tests/features/xml-sanitizer/presentation.test.tsx`: Valida upload, transição de estado da UI, toggles e reatividade.
+- `tests/features/xml-sanitizer/integration-e2e.test.ts`: Valida o pipeline completo de ponta a ponta com fixtures fiscais reais.

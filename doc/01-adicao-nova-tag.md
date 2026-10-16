@@ -1,6 +1,6 @@
 # Manual 01 — Procedimento para Adição de Nova Tag XML
 
-Este manual descreve o passo a passo detalhado para cadastrar e reconhecer uma nova tag XML no **LabTool**, tanto no motor de anonimização (**XML Privacy**) quanto no motor de comparação e exportação (**XML Comparator**).
+Este manual descreve o passo a passo detalhado para cadastrar e reconhecer uma nova tag XML no **LabTool**, tanto no motor de anonimização (**XML Sanitizer**) quanto no motor de comparação e exportação (**XML Comparator**).
 
 ---
 
@@ -11,7 +11,7 @@ No LabTool, as tags XML são cadastradas de forma puramente declarativa nos cat�
 ```text
 Nova Tag XML
     │
-    ├──► XML Privacy (src/features/xml-privacy/catalog/sensitive-tags.ts)
+    ├──► XML Sanitizer (src/features/xml-sanitizer/catalog/sensitive-tags.ts)
     │     └── Classificação em Categoria + Ação Sugerida (REPLACE / PRESERVE / SCRUB_TEXT / REMOVE_SUBTREE)
     │
     └──► XML Comparator (src/features/xml-comparator/)
@@ -20,15 +20,15 @@ Nova Tag XML
 ```
 
 > [!IMPORTANT]
-> **Isolamento de Motores**: O `xml-privacy` e o `xml-comparator` são independentes. Adicionar uma tag no catálogo do Privacy não afeta automaticamente o Comparator. Atualize os locais apropriados de acordo com o caso de uso.
+> **Isolamento de Motores**: O `xml-sanitizer` e o `xml-comparator` são independentes. Adicionar uma tag no catálogo do Privacy não afeta automaticamente o Comparator. Atualize os locais apropriados de acordo com o caso de uso.
 
 ---
 
-## 2. Passo a Passo: Adição no XML Privacy
+## 2. Passo a Passo: Adição no XML Sanitizer
 
 ### 2.1. Localização do Arquivo
-O catálogo do XML Privacy fica em:
-[`src/features/xml-privacy/catalog/sensitive-tags.ts`](../labtool/src/features/xml-privacy/catalog/sensitive-tags.ts).
+O catálogo do XML Sanitizer fica em:
+[`src/features/xml-sanitizer/catalog/sensitive-tags.ts`](../labtool/src/features/xml-sanitizer/catalog/sensitive-tags.ts).
 
 ### 2.2. Regra de Normalização
 Ao buscar no catálogo, a função `normalizeTagName()` converte a tag para minúsculas e remove pontuações, underscores, hífens, dois-pontos e prefixos de atributos (`@`).
@@ -40,7 +40,7 @@ Exemplos de normalização:
 - `@Id` ➔ `id`
 
 ### 2.3. Cadastrando a Tag no Catálogo `SENSITIVE_TAGS`
-Abra [`src/features/xml-privacy/catalog/sensitive-tags.ts`](../labtool/src/features/xml-privacy/catalog/sensitive-tags.ts) e adicione a nova chave na seção apropriada:
+Abra [`src/features/xml-sanitizer/catalog/sensitive-tags.ts`](../labtool/src/features/xml-sanitizer/catalog/sensitive-tags.ts) e adicione a nova chave na seção apropriada:
 
 ```typescript
 // Exemplo: Adicionando uma nova tag de documento de identidade <rgEmitente>
@@ -138,8 +138,8 @@ Se a nova tag puder aparecer em relatórios de comparação de XML, determine em
 
 ## 4. Testes e Validação
 
-### 4.1. Escrevendo o Teste Unitário no XML Privacy
-Adicione um teste em [`tests/features/xml-privacy/sensitive-tags.test.ts`](../labtool/tests/features/xml-privacy/sensitive-tags.test.ts):
+### 4.1. Escrevendo o Teste Unitário no XML Sanitizer
+Adicione um teste em [`tests/features/xml-sanitizer/sensitive-tags.test.ts`](../labtool/tests/features/xml-sanitizer/sensitive-tags.test.ts):
 
 ```typescript
 it("deve classificar corretamente a nova tag cadastrada", () => {

@@ -14,7 +14,7 @@
  * - ComparisonExportResult: Resultado da exportação do relatório Markdown
  *
  * Princípios:
- * - Isolado e independente do XML Privacy Engine;
+ * - Isolado e independente do XML Sanitizer Engine;
  * - Sanitização ocorre apenas no momento da exportação (após a comparação local);
  * - Mapeamentos existem somente em memória durante o ciclo de exportação;
  * - Depende unicamente de comparison.types dentro do domínio.

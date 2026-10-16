@@ -5,7 +5,7 @@ import {
   shouldSelectByDefault,
 } from "@/features/xml-sanitizer/catalog/sensitive-tags";
 
-describe("XML Privacy — XML Inspector", () => {
+describe("XML Sanitizer — XML Inspector", () => {
   describe("Classificação de Tags e Catálogo de Privacidade", () => {
     it("deve classificar todas as variações de Razão Social como RAZAO_SOCIAL e REPLACE", () => {
       const razaoTags = [

@@ -73,7 +73,7 @@ const E2E_COMPLETE_FIXTURE = `<?xml version="1.0" encoding="UTF-8"?>
   </NFe>
 </nfeProc>`;
 
-describe("XML Privacy — End-to-End Motor Integration", () => {
+describe("XML Sanitizer — End-to-End Motor Integration", () => {
   it("deve executar o fluxo completo de inspeção, sanitização determinística e validação de documento", () => {
     // 1. Inspecionar XML
     const fields = inspectXml(E2E_COMPLETE_FIXTURE);

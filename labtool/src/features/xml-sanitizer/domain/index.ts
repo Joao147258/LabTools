@@ -1,5 +1,5 @@
 /**
- * XML Privacy — Domain Layer
+ * XML Sanitizer — Domain Layer
  */
 
 export * from "./sanitization.types";

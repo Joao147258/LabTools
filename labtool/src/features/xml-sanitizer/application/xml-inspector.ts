@@ -1,5 +1,5 @@
 /**
- * XML Privacy — XML Inspector
+ * XML Sanitizer — XML Inspector
  *
  * Responsabilidade:
  * Executa a validação defensiva da string XML, parsing local em memória,
@@ -13,7 +13,7 @@
  * - Não faz chamadas de rede ou I/O externo;
  * - Não manipula elementos visuais de UI ou React.
  *
- * Pertence exclusivamente à feature: src/features/xml-privacy/
+ * Pertence exclusivamente à feature: src/features/xml-sanitizer/
  */
 
 import type {
@@ -422,7 +422,7 @@ function collectXmlFields(doc: Document): XmlField[] {
 }
 
 /**
- * Função principal de inspeção do XML Privacy.
+ * Função principal de inspeção do XML Sanitizer.
  *
  * Recebe a string de um documento XML, executa validações defensivas,
  * realiza o parsing local, percorre a hierarquia completa e retorna

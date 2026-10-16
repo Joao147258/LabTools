@@ -58,8 +58,8 @@ sanitização de exportação
 
 ## Princípios Fundamentais
 
-- **Motor Independente**: O XML Comparator possui seu próprio motor de comparação e parser, totalmente independente do motor do XML Privacy.
-- **Sanitização Própria para Exportação**: A sanitização de dados no momento da exportação do relatório é uma responsabilidade interna do próprio Comparator, não dependendo do motor de sanitização do XML Privacy.
+- **Motor Independente**: O XML Comparator possui seu próprio motor de comparação e parser, totalmente independente do motor do XML Sanitizer.
+- **Sanitização Própria para Exportação**: A sanitização de dados no momento da exportação do relatório é uma responsabilidade interna do próprio Comparator, não dependendo do motor de sanitização do XML Sanitizer.
 - **Processamento 100% Local**: Ambas as entradas XML são processadas exclusivamente no navegador do usuário, sem transmissão a servidores remotos.
 - **Descrição de Diferenças sem Suposições Fiscais**: A comparação descreve com precisão as divergências estruturais e de dados existentes entre os dois arquivos; uma diferença detectada nunca deve ser rotulada automaticamente pelo motor como erro ou causa fiscal conclusiva.
 - **Determinismo Absoluto**: O resultado da comparação entre dois XMLs sob os mesmos parâmetros deve ser sempre idêntico e reproduzível, sem uso de IA ou heurísticas opacas.
@@ -81,7 +81,7 @@ Catalog
 Domain
 ```
 
-O Domain não conhece Presentation, Application, DOM, React, APIs de I/O (File/Blob) ou a feature XML Privacy.
+O Domain não conhece Presentation, Application, DOM, React, APIs de I/O (File/Blob) ou a feature XML Sanitizer.
 
 ---
 
@@ -111,7 +111,7 @@ O Domain não conhece Presentation, Application, DOM, React, APIs de I/O (File/B
 - **Diferenças Exclusivamente Contextuais**: Quando `summary.hasOnlyContextualDiffs === true`, obrigatoriamente `summary.identical === false` e `summary.contextualDiffs === summary.totalDiffs`.
 - **Isolamento de DOM**: Nenhum contrato de `domain/` referencia classes do DOM (`Element`, `Node`, `XMLDocument`, `NamedNodeMap`, `NodeList`) ou APIs de navegador.
 - **Neutralidade de Nós**: `XmlTreeNode.value` é preenchido com string normalizada apenas para elementos folha, sendo `null` para nós intermediários.
-- **Desacoplamento do Privacy**: A feature XML Comparator não importa nem reutiliza tipos ou ações de domínio de `xml-privacy`.
+- **Desacoplamento do Privacy**: A feature XML Comparator não importa nem reutiliza tipos ou ações de domínio de `xml-sanitizer`.
 
 ---
 
@@ -126,5 +126,5 @@ Consequência: A Application será responsável por converter o XML bruto / DOM 
 Problema: Vocabulário de sanitização para exportação Markdown
 Decisão: Criar ExportSensitiveCategory e ExportSanitizationAction isolados em domain/export.types.ts
 Motivo: O comparador opera com mascaramento contextual consistente de tokens (MASK_TOKEN) e possui necessidades de proteção próprias para relatórios
-Consequência: Independência total em relação à pipeline de sanitização destrutiva do XML Privacy
+Consequência: Independência total em relação à pipeline de sanitização destrutiva do XML Sanitizer
 ```

@@ -17,7 +17,7 @@ Esta skill atua como guia técnico para garantir que todas as automações e rot
 - orquestradoras (delegando regras de negócio e execução de testes para TypeScript e runners do projeto);
 - acessíveis através de uma interface pública simples e unificada via `package.json` (`npm run <comando>`).
 
-Esta skill **não contém regras de negócio** do LabTool. As regras específicas de cada ferramenta pertencem soberanamente às suas respectivas features (`xml-privacy`, `xml-comparator`, `cnpj-intelligence`).
+Esta skill **não contém regras de negócio** do LabTool. As regras específicas de cada ferramenta pertencem soberanamente às suas respectivas features (`xml-sanitizer`, `xml-comparator`, `cnpj-intelligence`).
 
 ---
 
@@ -150,7 +150,7 @@ Exemplo conceitual:
 ```text
 test-all.sh (Validação Geral)
     ├── quality-gates.sh (typecheck + lint + test)
-    └── test-xml-privacy-e2e.sh (E2E específico do motor)
+    └── test-xml-sanitizer-e2e.sh (E2E específico do motor)
 ```
 
 ---
@@ -292,7 +292,7 @@ Inventário dos comandos públicos gerenciados via `package.json`:
 | `npm run lint` | Executa a verificação estática de código com ESLint | ESLint |
 | `npm run typecheck` | Executa a verificação de tipos TypeScript sem emitir arquivos | TypeScript (`tsc --noEmit`) |
 | `npm run test` | Executa a suíte de testes automatizados em modo run único | Vitest (`vitest run`) |
-| `npm run test:e2e:xml-privacy` | Executa a suíte completa de testes da feature XML Privacy | Vitest (`vitest run tests/features/xml-privacy/`) |
+| `npm run test:e2e:xml-sanitizer` | Executa a suíte completa de testes da feature XML Sanitizer | Vitest (`vitest run tests/features/xml-sanitizer/`) |
 | `npm run validate` | Executa todos os quality gates mecânicos (`typecheck`, `lint`, `test`, `build`) | NPM Composite |
 
 ---
@@ -303,7 +303,7 @@ Inventário dos scripts e executáveis sob `./scripts/`:
 
 | Script | Finalidade | Invocação Pública | Dependências |
 |---|---|---|---|
-| `./scripts/test-xml-privacy-e2e.sh` | Runner E2E de validação e testes da feature XML Privacy | `npm run test:e2e:xml-privacy` | `vitest`, `npm` |
+| `./scripts/test-xml-sanitizer-e2e.sh` | Runner E2E de validação e testes da feature XML Sanitizer | `npm run test:e2e:xml-sanitizer` | `vitest`, `npm` |
 
 ---
 

@@ -1,5 +1,5 @@
 /**
- * XML Privacy — Presentation Layer
+ * XML Sanitizer — Presentation Layer
  */
 
 export * from "./XmlSanitizerView";

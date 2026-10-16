@@ -16,7 +16,7 @@ O **CNPJ Intelligence** é o módulo do LabTool desenvolvido para consulta, vali
 - **Validação Algorítmica Confiável**: Algoritmo estrito de validação matemática de CNPJ (módulo 11) com rejeição de sequências repetidas e formatação dinâmica de máscara em tempo real.
 - **Inteligência de Regime Tributário**: Detecção e consolidação do enquadramento fiscal (Simples Nacional, MEI, Lucro Presumido, Lucro Real, Imune de IRPJ) a partir do cruzamento de dados de opção/exclusão e declarações de ECF/SPED.
 - **Zero Poluição / Zero IA**: Aplicação web convencional de alta performance, sem dependência de LLMs ou chatbots, focada em precisão e clareza técnica.
-- **Isolamento Total**: Módulo 100% independente dos motores de XML (`xml-privacy` e `xml-comparator`).
+- **Isolamento Total**: Módulo 100% independente dos motores de XML (`xml-sanitizer` e `xml-comparator`).
 
 ---
 

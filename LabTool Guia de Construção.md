@@ -50,7 +50,7 @@ Inicialmente contém três ferramentas independentes:
 ```text
 LabTool
 │
-├── XML Privacy
+├── XML Sanitizer (o nome do módulo foi mudado para xml-sanitizer)
 │   └── inspeção e sanitização de XML
 │
 ├── XML Comparator
@@ -76,7 +76,7 @@ As funcionalidades são separadas em features.
 src/
 ├── app/
 ├── features/
-│   ├── xml-privacy/
+│   ├── xml-sanitizer/
 │   ├── xml-comparator/
 │   └── cnpj-intelligence/
 └── shared/
@@ -91,9 +91,9 @@ Cada feature deve possuir fronteiras claras.
 Cada ferramenta possui seu próprio motor.
 
 ```text
-XML Privacy
+XML Sanitizer
      ↓
-Privacy Engine
+Sanitizer Engine
 
 
 XML Comparator
@@ -106,9 +106,9 @@ CNPJ Intelligence
 CNPJ Flow
 ```
 
-O XML Comparator não deve utilizar internamente o motor do XML Privacy.
+O XML Comparator não deve utilizar internamente o motor do XML Sanitizer.
 
-O XML Privacy não deve conhecer o XML Comparator.
+O XML Sanitizer não deve conhecer o XML Comparator.
 
 Comportamentos parecidos podem existir de forma independente quando pertencem a responsabilidades diferentes.
 
@@ -157,7 +157,7 @@ O código deve priorizar:
 As ferramentas:
 
 ```text
-XML Privacy
+XML Sanitizer
 XML Comparator
 ```
 
@@ -356,7 +356,7 @@ persistência
 serviços externos
 ```
 
-XML Privacy e XML Comparator não precisam dessa camada para seu processamento principal.
+XML Sanitizer e XML Comparator não precisam dessa camada para seu processamento principal.
 
 CNPJ Intelligence utiliza infraestrutura para comunicação com a fonte externa.
 
@@ -383,12 +383,12 @@ Ela não deve substituir o motor.
 
 ---
 
-# 7. Etapa 2 — XML Privacy: modelo de domínio
+# 7. Etapa 2 — XML Sanitizer: modelo de domínio
 
 Criar inicialmente:
 
 ```text
-src/features/xml-privacy/
+src/features/xml-sanitizer/
 └── domain/
     └── sanitization.types.ts
 ```
@@ -484,12 +484,12 @@ Remove determinado nó ou subárvore da árvore XML (utilizado para assinaturas 
 
 ---
 
-# 8. Etapa 3 — XML Privacy: catálogo
+# 8. Etapa 3 — XML Sanitizer: catálogo
 
 Criar:
 
 ```text
-xml-privacy/
+xml-sanitizer/
 └── catalog/
     └── sensitive-tags.ts
 ```
@@ -557,7 +557,7 @@ O catálogo não deve:
 
 ---
 
-# 9. Etapa 4 — XML Privacy: parsing seguro
+# 9. Etapa 4 — XML Sanitizer: parsing seguro
 
 O XML passa primeiro por uma etapa de parsing.
 
@@ -613,7 +613,7 @@ O traversal completo deve considerar os tipos de nó relevantes.
 
 ---
 
-# 10. Etapa 5 — XML Privacy: inspector
+# 10. Etapa 5 — XML Sanitizer: inspector
 
 Criar:
 
@@ -722,7 +722,7 @@ A simples presença de informação geográfica não torna o campo automaticamen
 
 ---
 
-# 11. Etapa 6 — XML Privacy: texto livre
+# 11. Etapa 6 — XML Sanitizer: texto livre
 
 Criar a capacidade de identificar informações sensíveis dentro de textos maiores.
 
@@ -760,7 +760,7 @@ Testar isoladamente:
 
 ---
 
-# 12. Etapa 7 — XML Privacy: sanitização
+# 12. Etapa 7 — XML Sanitizer: sanitização
 
 Após o inspector funcionar, implementar:
 
@@ -857,7 +857,7 @@ remoções
 
 ---
 
-# 13. Etapa 8 — XML Privacy: testes do motor
+# 13. Etapa 8 — XML Sanitizer: testes do motor
 
 Antes da interface, testar:
 
@@ -888,7 +888,7 @@ Também validar que campos não selecionados permanecem intactos.
 
 ---
 
-# 14. Etapa 9 — XML Privacy: Presentation
+# 14. Etapa 9 — XML Sanitizer: Presentation
 
 Criar:
 
@@ -1141,7 +1141,7 @@ application/
 └── export-sanitizer.ts
 ```
 
-Esse sanitizador pertence exclusivamente ao XML Comparator e não depende do motor do XML Privacy:
+Esse sanitizador pertence exclusivamente ao XML Comparator e não depende do motor do XML Sanitizer:
 - **Preservação**: Inscrição Municipal (`IM`, `InscricaoMunicipal`, `IE`) e dados de endereço/localização (`CEP`, `xLgr`, `nro`, `xBairro`, `cMun`, `UF`, `cPais`) **não são mascarados**, preservando seus valores originais para análise técnica no relatório.
 - **Anonimização**: Apenas PIIs sensíveis (como `CNPJ`, `CPF`, `NOME`, `CONTATO`) recebem substituição determinística relacional (`[CNPJ_001]`).
 - **Contexto Temporário (`SanitizationContext`)**: Garante consistência de tokens entre XML Aprovado, XML Rejeitado e Arquivo de Erro complementar (JSON, XML ou Texto Livre).
@@ -1531,12 +1531,12 @@ A aplicação passa a possuir:
 src/
 ├── app/
 │   ├── page.tsx
-│   ├── xml-privacy/
+│   ├── xml-sanitizer/
 │   ├── xml-comparator/
 │   └── api/
 │
 └── features/
-    ├── xml-privacy/
+    ├── xml-sanitizer/
     ├── xml-comparator/
     └── cnpj-intelligence/
 ```
@@ -1587,7 +1587,7 @@ Estrutura possível:
 
 ```text
 tests/
-├── xml-privacy.test.ts
+├── xml-sanitizer.test.ts
 ├── xml-comparator.test.ts
 ├── xml-comparator-export.test.ts
 ├── integration/
@@ -1677,7 +1677,7 @@ Uma alteração só deve ser considerada tecnicamente válida quando os gates re
 
 ---
 
-# 40. Fluxo completo — XML Privacy
+# 40. Fluxo completo — XML Sanitizer
 
 ```text
 arquivo
@@ -1791,11 +1791,11 @@ O domínio permanece no centro.
 
 # 44. Regras que devem permanecer durante toda a construção
 
-1. XML Privacy possui motor próprio.
+1. XML Sanitizer possui motor próprio.
 
 2. XML Comparator possui motor próprio.
 
-3. O sanitizador do Comparator não depende do Privacy Engine.
+3. O sanitizador do Comparator não depende do Sanitizer Engine.
 
 4. XML original é processado localmente.
 
@@ -1820,14 +1820,14 @@ O domínio permanece no centro.
 02. Quality gates
 03. Arquitetura das features
 
-04. XML Privacy Domain
-05. XML Privacy Catalog
-06. XML Privacy Parser
-07. XML Privacy Inspector
-08. XML Privacy Text Scrubber
-09. XML Privacy Sanitizer
-10. XML Privacy Tests
-11. XML Privacy UI
+04. XML Sanitizer Domain
+05. XML Sanitizer Catalog
+06. XML Sanitizer Parser
+07. XML Sanitizer Inspector
+08. XML Sanitizer Text Scrubber
+09. XML Sanitizer Sanitizer
+10. XML Sanitizer Tests
+11. XML Sanitizer UI
 
 12. Comparator Domain
 13. Comparator Parser
@@ -1865,7 +1865,7 @@ O domínio permanece no centro.
 O LabTool deve terminar organizado em três módulos principais:
 
 ```text
-XML Privacy
+XML Sanitizer
     └── interpreta e sanitiza XML
 
 

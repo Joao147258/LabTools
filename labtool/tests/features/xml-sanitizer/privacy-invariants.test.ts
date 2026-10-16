@@ -3,7 +3,7 @@ import { inspectXml } from "@/features/xml-sanitizer/application/xml-inspector";
 import { sanitizeXml } from "@/features/xml-sanitizer/application/xml-sanitizer";
 import { parseSafeDocument } from "@/features/xml-sanitizer/application/xml-parser";
 
-describe("XML Privacy — Privacy Invariants & Regression Suite", () => {
+describe("XML Sanitizer — Privacy Invariants & Regression Suite", () => {
   describe("1. Teste de Regressão Obrigatório: Razão Social e PII Municipal/CBS-IBS", () => {
     const REGRESSION_FIXTURE = `<notafiscal>
   <cnpj_cpf_prestador>11111111000191</cnpj_cpf_prestador>

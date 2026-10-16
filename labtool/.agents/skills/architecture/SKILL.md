@@ -52,7 +52,7 @@ As três ferramentas iniciais residem em:
 
 ```text
 src/features/
-├── xml-privacy/
+├── xml-sanitizer/
 ├── xml-comparator/
 └── cnpj-intelligence/
 ```
@@ -64,9 +64,9 @@ Cada feature possui fronteiras claras e responsabilidades delimitadas.
 Cada ferramenta possui seu próprio motor ou fluxo de execução:
 
 ```text
-XML Privacy
+XML Sanitizer
     ↓
-motor próprio (Privacy Engine)
+motor próprio (Sanitizer Engine)
 
 XML Comparator
     ↓
@@ -77,8 +77,8 @@ CNPJ Intelligence
 fluxo próprio (CNPJ Flow)
 ```
 
-- O `xml-comparator` não deve depender da implementação interna do `xml-privacy`.
-- O `xml-privacy` não deve depender do `xml-comparator`.
+- O `xml-comparator` não deve depender da implementação interna do `xml-sanitizer`.
+- O `xml-sanitizer` não deve depender do `xml-comparator`.
 - Semelhança de código ou formato de dados (XML) não significa automaticamente responsabilidade compartilhada.
 - Motores diferentes atendem a propósitos diferentes e devem evoluir de forma independente.
 
@@ -126,7 +126,7 @@ Representa dependências e integrações externas:
 - sistemas de arquivos, persistência ou storage;
 - serviços externos e adaptadores de rede.
 
-**Regra estrita**: Só deve existir quando estritamente necessária (ex.: consulta à API externa no `cnpj-intelligence`). Ferramentas locais como `xml-privacy` e `xml-comparator` operam no navegador e não necessitam de infraestrutura para seu processamento principal.
+**Regra estrita**: Só deve existir quando estritamente necessária (ex.: consulta à API externa no `cnpj-intelligence`). Ferramentas locais como `xml-sanitizer` e `xml-comparator` operam no navegador e não necessitam de infraestrutura para seu processamento principal.
 
 ### Presentation
 

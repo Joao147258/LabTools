@@ -1,7 +1,7 @@
 /**
- * XML Privacy — Application Layer
+ * XML Sanitizer — Application Layer
  *
- * Expõe exclusivamente os pontos de entrada públicos do motor do XML Privacy:
+ * Expõe exclusivamente os pontos de entrada públicos do motor do XML Sanitizer:
  * - inspectXml: Validação e inspeção estrutural de campos;
  * - sanitizeXml: Orquestração de sanitização, mutação e sumarização.
  */

@@ -11,7 +11,7 @@ import { XmlFieldsTable } from "./XmlFieldsTable";
 import { XmlCodeViewer } from "./XmlCodeViewer";
 
 /**
- * Visualização principal da ferramenta XML Privacy.
+ * Visualização principal da ferramenta XML Sanitizer.
  *
  * Orquestra os dois estágios de interação do usuário:
  * 1. Importação: Upload seguro com validação defensiva e inspeção preliminar;

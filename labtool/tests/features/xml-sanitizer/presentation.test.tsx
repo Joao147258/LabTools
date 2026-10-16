@@ -37,7 +37,7 @@ const SAMPLE_XML = `<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe">
   </NFe>
 </nfeProc>`;
 
-describe("XML Privacy — Presentation Layer", () => {
+describe("XML Sanitizer — Presentation Layer", () => {
   let container: HTMLDivElement;
   let root: Root;
 

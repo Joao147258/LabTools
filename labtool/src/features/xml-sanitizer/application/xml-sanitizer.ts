@@ -1,5 +1,5 @@
 /**
- * XML Privacy — XML Sanitizer Orchestrator
+ * XML Sanitizer — XML Sanitizer Orchestrator
  *
  * Responsabilidade:
  * Receber a string original do XML e a lista de XmlField (com as ações e seleções
@@ -12,7 +12,7 @@
  * - Não manipula componentes React ou estado visual;
  * - Não faz chamadas de rede ou I/O externo.
  *
- * Pertence exclusivamente à feature: src/features/xml-privacy/
+ * Pertence exclusivamente à feature: src/features/xml-sanitizer/
  */
 
 import type {

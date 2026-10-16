@@ -18,7 +18,7 @@ Esta skill define as categorias de testes, as regras para validação de comport
 
 Esta skill abrange todo o escopo de testes do LabTool (`tests/`).
 
-A skill de testing **não substitui** a skill específica de cada feature (`xml-privacy`, `xml-comparator`, `cnpj-intelligence`), mas atua como guia transversal e complementar para a garantia da qualidade e validação de invariantes.
+A skill de testing **não substitui** a skill específica de cada feature (`xml-sanitizer`, `xml-comparator`, `cnpj-intelligence`), mas atua como guia transversal e complementar para a garantia da qualidade e validação de invariantes.
 
 ---
 
@@ -104,7 +104,7 @@ Os testes automatizados devem atuar como guardiões de:
 
 ## Base Canônica para Formulação de XMLs de Teste (`./XML_Models/`)
 
-Sempre que for formular, criar, atualizar ou derivar testes, fixtures, mocks ou exemplos envolvendo documentos XML (tanto para o `xml-privacy` quanto para o `xml-comparator`), deve-se **obrigatoriamente utilizar os modelos contidos em `./XML_Models/` como base canônica de referência**.
+Sempre que for formular, criar, atualizar ou derivar testes, fixtures, mocks ou exemplos envolvendo documentos XML (tanto para o `xml-sanitizer` quanto para o `xml-comparator`), deve-se **obrigatoriamente utilizar os modelos contidos em `./XML_Models/` como base canônica de referência**.
 
 ### Diretrizes de Uso dos Modelos:
 - **Estruturas Fiscais Reais**: Os arquivos presentes em `./XML_Models/` contêm a taxonomia, tags, namespaces e hierarquias reais de documentos fiscais eletrônicos brasileiros (NF-e, NFC-e, CT-e, etc.).
@@ -123,11 +123,11 @@ Sempre que for formular, criar, atualizar ou derivar testes, fixtures, mocks ou 
 
 | Suíte de Teste | Arquivo | Testes | Responsabilidade Validada |
 |---|---|---|---|
-| **XML Privacy — Inspector** | `tests/features/xml-privacy/xml-inspector.test.ts` | 16 | Defesa em profundidade, detecção recursiva de nós DOM, extração de posições e tags contextuais. |
-| **XML Privacy — Text Scrub** | `tests/features/xml-privacy/text-scrub.test.ts` | 12 | Higienização regex de e-mails, CPFs, CNPJs, telefones e preservação de números comuns em texto livre. |
-| **XML Privacy — Sanitizer** | `tests/features/xml-privacy/xml-sanitizer.test.ts` | 12 | Mutação determinística, tokens `[CATEGORIA_001]`, remoção de XMLDSig e sanitização de CDATA. |
-| **XML Privacy — Presentation** | `tests/features/xml-privacy/presentation.test.tsx` | 10 | Componentes React de upload, tabela interativa, filtros de categorias, badges e escape contra XSS. |
-| **XML Privacy — Integration E2E** | `tests/features/xml-privacy/integration-e2e.test.ts` | 2 | Fluxo end-to-end do motor de privacidade com fixtures completas e namespaces customizados. |
+| **XML Sanitizer — Inspector** | `tests/features/xml-sanitizer/xml-inspector.test.ts` | 16 | Defesa em profundidade, detecção recursiva de nós DOM, extração de posições e tags contextuais. |
+| **XML Sanitizer — Text Scrub** | `tests/features/xml-sanitizer/text-scrub.test.ts` | 12 | Higienização regex de e-mails, CPFs, CNPJs, telefones e preservação de números comuns em texto livre. |
+| **XML Sanitizer — Sanitizer** | `tests/features/xml-sanitizer/xml-sanitizer.test.ts` | 12 | Mutação determinística, tokens `[CATEGORIA_001]`, remoção de XMLDSig e sanitização de CDATA. |
+| **XML Sanitizer — Presentation** | `tests/features/xml-sanitizer/presentation.test.tsx` | 10 | Componentes React de upload, tabela interativa, filtros de categorias, badges e escape contra XSS. |
+| **XML Sanitizer — Integration E2E** | `tests/features/xml-sanitizer/integration-e2e.test.ts` | 2 | Fluxo end-to-end do motor de privacidade com fixtures completas e namespaces customizados. |
 | **XML Comparator — Parser** | `tests/features/xml-comparator/comparator-parser.test.ts` | 8 | Leitura de XMLs, normalização de atributos, estruturação em `XmlTreeNode` e caminhos XPath. |
 | **XML Comparator — Differ** | `tests/features/xml-comparator/xml-differ.test.ts` | 14 | Detecção determinística de adições, remoções, alterações de texto, atributos e geração de resumo. |
 | **XML Comparator — Classifier** | `tests/features/xml-comparator/diff-classifier.test.ts` | 33 | Esteira semântica de 8 níveis, distinção entre divergências de tomador (contextual) e prestador/fiscais (principal). |
@@ -145,13 +145,13 @@ Sempre que for formular, criar, atualizar ou derivar testes, fixtures, mocks ou 
 
 | Feature | Invariante Protegido | Suíte de Teste Guardiã |
 |---|---|---|
-| **XML Privacy** | Bloqueio rigoroso de XXE (`<!DOCTYPE` e `<!ENTITY`) antes de instanciar o parser | `xml-inspector.test.ts` |
-| **XML Privacy** | Limite máximo estrito de tamanho de arquivo de 20MB | `presentation.test.tsx` |
-| **XML Privacy** | Imutabilidade do documento XML original durante a sanitização | `xml-sanitizer.test.ts` |
-| **XML Privacy** | Determinismo de substituição sintética (`[CATEGORIA_001]`) | `xml-sanitizer.test.ts`, `text-scrub.test.ts` |
-| **XML Privacy** | Preservação obrigatória por padrão de Inscrição Municipal (`IM`) e Endereço (`CEP`, `xLgr`, `nro`, `xBairro`, `cMun`, `UF`) | `xml-sanitizer.test.ts`, `xml-inspector.test.ts` |
-| **XML Privacy** | Remoção integral de assinaturas digitais W3C (`<Signature>`) sem deixar nós órfãos | `xml-sanitizer.test.ts` |
-| **XML Privacy** | Escape total contra vulnerabilidades XSS na visualização de código | `presentation.test.tsx` |
+| **XML Sanitizer** | Bloqueio rigoroso de XXE (`<!DOCTYPE` e `<!ENTITY`) antes de instanciar o parser | `xml-inspector.test.ts` |
+| **XML Sanitizer** | Limite máximo estrito de tamanho de arquivo de 20MB | `presentation.test.tsx` |
+| **XML Sanitizer** | Imutabilidade do documento XML original durante a sanitização | `xml-sanitizer.test.ts` |
+| **XML Sanitizer** | Determinismo de substituição sintética (`[CATEGORIA_001]`) | `xml-sanitizer.test.ts`, `text-scrub.test.ts` |
+| **XML Sanitizer** | Preservação obrigatória por padrão de Inscrição Municipal (`IM`) e Endereço (`CEP`, `xLgr`, `nro`, `xBairro`, `cMun`, `UF`) | `xml-sanitizer.test.ts`, `xml-inspector.test.ts` |
+| **XML Sanitizer** | Remoção integral de assinaturas digitais W3C (`<Signature>`) sem deixar nós órfãos | `xml-sanitizer.test.ts` |
+| **XML Sanitizer** | Escape total contra vulnerabilidades XSS na visualização de código | `presentation.test.tsx` |
 | **XML Comparator** | Comparação puramente estrutural em memória via `XmlTreeNode` sem acoplamento a DOM | `comparator-parser.test.ts`, `xml-differ.test.ts` |
 | **XML Comparator** | Precedência estrita de 8 níveis: divergências em dados cadastrais do tomador são contextuais (`CONTEXTUAL_DIFF`), enquanto prestador e dados fiscais/municipais são principais (`VALUE_DIFF`) | `diff-classifier.test.ts` |
 | **XML Comparator** | Alinhamento espelhado estrito com linhas correspondentes em altura compartilhada (LCS) | `mirrored-comparison.test.tsx` |

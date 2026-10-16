@@ -15,7 +15,9 @@
 > 
 > 1. **Proibido navegar para fora**: É terminantemente proibido executar comandos `cd`, listar arquivos, ler ou modificar qualquer diretório fora deste workspace (`.`).
 > 2. **Proibido carregar contexto externo**: Não consultar códigos legados externos, agents de outros repositórios ou arquiteturas de terceiros. A autoridade da verdade técnica reside 100% neste workspace.
-> 3. **Regra de Portabilidade**: É expressamente proibido escrever caminhos absolutos específicos da máquina do desenvolvedor (como `/home/...`, `C:\...`) no código-fonte, imports, scripts ou testes. Utilize sempre caminhos relativos à raiz do projeto (`./src/`, `./tests/`, `./.agents/skills/`).
+> 3. **Regra de Portabilidade e Sanitização Documental**: É expressamente proibido escrever caminhos absolutos específicos da máquina do desenvolvedor (como `/home/...`, `C:\...`) ou nomes de usuário do host no código-fonte, imports, scripts, testes ou **em qualquer documentação pública (ADRs, relatórios, manuais)**.
+>    - Informações privadas de ambiente contidas em prompts, logs ou configurações locais nunca devem ser reproduzidas em artefatos públicos. Utilize sempre caminhos relativos ou identificadores lógicos (`<WORKSPACE_ROOT>`, `<REPO_ROOT>`, etc.).
+>    - **Validação Pós-Escrita Obrigatória**: Após gerar ou modificar qualquer arquivo Markdown ou documental, executar obrigatoriamente `npm run scan:context -- --strict` sob política *fail-closed*.
 
 ---
 
@@ -48,7 +50,7 @@ Ele orienta o agente a:
 | Skill | Localização | Papel Principal |
 |---|---|---|
 | **Architecture** | [`labtool/.agents/skills/architecture/SKILL.md`](./labtool/.agents/skills/architecture/SKILL.md) | Diretrizes de monólito modular, fronteiras entre features e Clean Architecture. |
-| **XML Privacy** | [`labtool/.agents/skills/xml-privacy/SKILL.md`](./labtool/.agents/skills/xml-privacy/SKILL.md) | Motor de parsing defensivo, catálogo declarativo, inspeção e sanitização de XMLs. |
+| **XML Sanitizer** | [`labtool/.agents/skills/xml-sanitizer/SKILL.md`](./labtool/.agents/skills/xml-sanitizer/SKILL.md) | Motor de parsing defensivo, catálogo declarativo, inspeção e sanitização de XMLs. |
 | **XML Comparator** | [`labtool/.agents/skills/xml-comparator/SKILL.md`](./labtool/.agents/skills/xml-comparator/SKILL.md) | Motor de comparação estrutural de XML, árvore de nós normalizada e cálculo de diff. |
 | **CNPJ Intelligence** | [`labtool/.agents/skills/cnpj-intelligence/SKILL.md`](./labtool/.agents/skills/cnpj-intelligence/SKILL.md) | Domínio de CNPJ, normalização numérica, validação de DV e contratos de gateway. |
 | **Testing** | [`labtool/.agents/skills/testing/SKILL.md`](./labtool/.agents/skills/testing/SKILL.md) | Testes unitários, de integração e quality gates com Vitest. |
@@ -73,23 +75,23 @@ Ele orienta o agente a:
     │
     ├── .agents/skills/                → Base de conhecimento operacional e skills locais
     │   ├── architecture/              → Princípios arquiteturais, monólito modular e camadas
-    │   ├── xml-privacy/               → Motor de inspeção, catálogo de tags e sanitização
+    │   ├── xml-sanitizer/             → Motor de inspeção, catálogo de tags e sanitização
     │   ├── xml-comparator/            → Motor de diff estrutural e árvore normalizada de nós
     │   ├── cnpj-intelligence/         → Domínio cadastral de CNPJ, normalização e validação
     │   ├── testing/                   → Testes como evidência e proteção de invariantes
     │   └── scripts-automation/        → Automações, scripts shell e quality gates
     │
     ├── src/
-    │   ├── app/                       → Rotas Next.js App Router (/, /xml-privacy, /xml-comparator)
+    │   ├── app/                       → Rotas Next.js App Router (/, /xml-sanitizer, /xml-comparator)
     │   ├── features/                  → Módulos e motores das ferramentas
-    │   │   ├── xml-privacy/           → Privacy Engine (domain, catalog, application, presentation)
+    │   │   ├── xml-sanitizer/         → Sanitizer Engine (domain, catalog, application, presentation)
     │   │   ├── xml-comparator/        → Comparator Engine (domain, application, presentation)
     │   │   └── cnpj-intelligence/     → CNPJ Flow (domain, application, infrastructure, presentation)
     │   └── shared/                    → Componentes e utilitários compartilhados
     │
     └── tests/                         → Suíte abrangente de testes unitários e de integração
         └── features/
-            ├── xml-privacy/
+            ├── xml-sanitizer/
             ├── xml-comparator/
             └── cnpj-intelligence/
 ```
@@ -101,17 +103,17 @@ Ele orienta o agente a:
 Cada ferramenta possui seu próprio motor, fluxo de execução e regras de domínio:
 
 ```text
-XML Privacy              XML Comparator              CNPJ Intelligence
+XML Sanitizer            XML Comparator              CNPJ Intelligence
      ↓                         ↓                             ↓
-Privacy Engine          Comparator Engine                CNPJ Flow
+Sanitizer Engine        Comparator Engine                CNPJ Flow
 (Inspeção & Sanitização) (Diff Estrutural & Árvore)     (Domínio & Validação)
 ```
 
-- **Isolamento de Motores**: O `xml-comparator` não depende da implementação do `xml-privacy`, e vice-versa. Formato comum (XML) não implica responsabilidade compartilhada.
+- **Isolamento de Motores**: O `xml-comparator` não depende da implementação do `xml-sanitizer`, e vice-versa. Formato comum (XML) não implica responsabilidade compartilhada.
 
 ---
 
-### 6.1. XML Privacy (`src/features/xml-privacy/`)
+### 6.1. XML Sanitizer (`src/features/xml-sanitizer/`)
 - **Propósito**: Anonimizar e mascarar PIIs e dados fiscais sensíveis em XMLs para compartilhamento seguro e testes.
 - **Filosofia Central**:
   > *Inspector descobre. Catalog classifica. Usuário decide. Sanitizer executa. Parser protege. Text Scrub sanitiza conteúdo livre. Domain define contratos.*

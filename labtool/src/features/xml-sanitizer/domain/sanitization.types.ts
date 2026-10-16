@@ -1,5 +1,5 @@
 /**
- * XML Privacy — Domain Types
+ * XML Sanitizer — Domain Types
  *
  * Define o vocabulário, tipos de dados e contratos fundamentais para
  * o domínio de privacidade, inspeção e sanitização de XMLs.
@@ -108,7 +108,7 @@ export interface SanitizationSummary {
 }
 
 /**
- * Resultado completo retornado pela execução do motor de sanitização do XML Privacy.
+ * Resultado completo retornado pela execução do motor de sanitização do XML Sanitizer.
  */
 export interface SanitizationResult {
   /** Indica se o processo de parsing e sanitização foi concluído com sucesso */

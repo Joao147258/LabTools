@@ -1,16 +1,16 @@
 /**
- * XML Privacy — Safe XML Parser & Defensive Guards
+ * XML Sanitizer — Safe XML Parser & Defensive Guards
  *
  * Responsabilidade:
  * Centralizar a política de validação defensiva e o parsing seguro de strings XML
- * em objetos Document DOM em memória para a feature XML Privacy.
+ * em objetos Document DOM em memória para a feature XML Sanitizer.
  *
  * O que NÃO faz:
  * - Não realiza inspeção nem classificação de campos;
  * - Não aplica mutações de sanitização;
  * - Não faz chamadas de rede ou I/O externo.
  *
- * Pertence exclusivamente à feature: src/features/xml-privacy/application/
+ * Pertence exclusivamente à feature: src/features/xml-sanitizer/application/
  */
 
 /**

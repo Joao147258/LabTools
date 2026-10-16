@@ -11,7 +11,7 @@ As skills atuam como a base de conhecimento operacional e arquitetural utilizada
 | Skill | Responsabilidade Principal | Quando Utilizar |
 |---|---|---|
 | [`architecture`](file://./architecture/SKILL.md) | Arquitetura, monólito modular, camadas e fronteiras | Criação ou alteração de camadas, decisões estruturais, direção de dependências e avaliação de extração para `shared`. |
-| [`xml-privacy`](file://./xml-privacy/SKILL.md) | Motor do XML Privacy | Parsing de XML, inspeção de campos, catálogo declarativo, classificação de sensibilidade, scrub de texto e sanitização. |
+| [`xml-sanitizer`](file://./xml-sanitizer/SKILL.md) | Motor do XML Sanitizer | Parsing de XML, inspeção de campos, catálogo declarativo, classificação de sensibilidade, scrub de texto e sanitização. |
 | [`xml-comparator`](file://./xml-comparator/SKILL.md) | Motor do XML Comparator | Parsing comparativo de XMLs, árvore de nós normalizada, cálculo de diferenças (diff), contexto e sanitização de exportação Markdown. |
 | [`cnpj-intelligence`](file://./cnpj-intelligence/SKILL.md) | Fluxo cadastral do CNPJ | Domínio de CNPJ, normalização de entrada, validação de dígitos verificadores, contratos de gateway e mappers de APIs externas. |
 | [`testing`](file://./testing/SKILL.md) | Testes como evidência e proteção de invariantes | Criação de testes unitários, testes de integração, regressões, casos de limite, entradas adversariais de XML e quality gates. |

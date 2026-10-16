@@ -41,7 +41,7 @@ npm run validate
 
 ## 🏛️ Estrutura da Aplicação
 
-- `src/app/`: Rotas Next.js App Router (`/`, `/xml-privacy`, `/xml-comparator`).
-- `src/features/`: Módulos independentes com Clean Architecture (`xml-privacy`, `xml-comparator`, `cnpj-intelligence`).
+- `src/app/`: Rotas Next.js App Router (`/`, `/xml-sanitizer`, `/xml-comparator`).
+- `src/features/`: Módulos independentes com Clean Architecture (`xml-sanitizer`, `xml-comparator`, `cnpj-intelligence`).
 - `src/shared/`: Componentes e utilitários transversais.
 - `tests/`: Suíte de testes unitários e de integração organizados por feature.

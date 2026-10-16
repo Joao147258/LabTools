@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { inspectXml } from "@/features/xml-sanitizer/application/xml-inspector";
 import { sanitizeXml } from "@/features/xml-sanitizer/application/xml-sanitizer";
 
-describe("XML Privacy — XML Sanitizer", () => {
+describe("XML Sanitizer — XML Sanitizer", () => {
   it("deve retornar erro em SanitizationResult caso o XML seja inválido ou vazio", () => {
     const result = sanitizeXml("", []);
     expect(result.success).toBe(false);

@@ -6,7 +6,7 @@ Este manual orienta como modificar as políticas de privacidade, ações sugerid
 
 ## 1. As 4 Ações de Sanitização (`SanitizationAction`)
 
-O motor do XML Privacy opera com 4 ações fundamentais sobre os nós inspecionados:
+O motor do XML Sanitizer opera com 4 ações fundamentais sobre os nós inspecionados:
 
 | Ação | Comportamento | Quando Usar |
 |---|---|---|
@@ -22,7 +22,7 @@ O motor do XML Privacy opera com 4 ações fundamentais sobre os nós inspeciona
 ### Exemplo Prático: Preservar uma Tag que Antes era Mascarada
 Caso você queira que uma tag deixe de ser substituída automaticamente (como foi feito com `IM` e `ENDERECO`):
 
-1. Abra [`src/features/xml-privacy/catalog/sensitive-tags.ts`](../labtool/src/features/xml-privacy/catalog/sensitive-tags.ts);
+1. Abra [`src/features/xml-sanitizer/catalog/sensitive-tags.ts`](../labtool/src/features/xml-sanitizer/catalog/sensitive-tags.ts);
 2. Altere a `suggestedAction` da tag para `"PRESERVE"`:
    ```typescript
    export const SENSITIVE_TAGS = {
@@ -66,7 +66,7 @@ Caso você queira que uma tag deixe de ser substituída automaticamente (como fo
 
 ## 3. Como Funciona a Substituição Sintética (`ReplacementGenerator`)
 
-A classe `ReplacementGenerator` em [`src/features/xml-privacy/application/xml-sanitizer.ts`](../labtool/src/features/xml-privacy/application/xml-sanitizer.ts) garante consistência e determinismo:
+A classe `ReplacementGenerator` em [`src/features/xml-sanitizer/application/xml-sanitizer.ts`](../labtool/src/features/xml-sanitizer/application/xml-sanitizer.ts) garante consistência e determinismo:
 
 ```typescript
 // Regra de geração:
@@ -82,7 +82,7 @@ A classe `ReplacementGenerator` em [`src/features/xml-privacy/application/xml-sa
 
 ## 4. Como Alterar as Regras de Regex no Texto Livre (`text-scrub.ts`)
 
-A higienização de campos com ação `SCRUB_TEXT` é governada por [`src/features/xml-privacy/application/text-scrub.ts`](../labtool/src/features/xml-privacy/application/text-scrub.ts).
+A higienização de campos com ação `SCRUB_TEXT` é governada por [`src/features/xml-sanitizer/application/text-scrub.ts`](../labtool/src/features/xml-sanitizer/application/text-scrub.ts).
 
 ### Ordem Estrita de Execução dos Regex:
 A ordem é crucial para evitar que regexes de números mascarem partes de e-mails ou CNPJs antes da hora:
@@ -128,9 +128,9 @@ export function scrubFreeText(
 Após alterar qualquer regra de sanitização:
 
 1. Atualize o arquivo de testes de sanitização:
-   [`tests/features/xml-privacy/xml-sanitizer.test.ts`](../labtool/tests/features/xml-privacy/xml-sanitizer.test.ts)
+   [`tests/features/xml-sanitizer/xml-sanitizer.test.ts`](../labtool/tests/features/xml-sanitizer/xml-sanitizer.test.ts)
 2. Atualize o teste de scrub de texto livre:
-   [`tests/features/xml-privacy/text-scrub.test.ts`](../labtool/tests/features/xml-privacy/text-scrub.test.ts)
+   [`tests/features/xml-sanitizer/text-scrub.test.ts`](../labtool/tests/features/xml-sanitizer/text-scrub.test.ts)
 3. Execute a suíte de testes no terminal:
    ```bash
    npm test
